@@ -30,6 +30,9 @@ class Deck{
     inline void remove(int val, char suit){
       dead_cards.push_back(Card(val,suit));
     }
+  inline std::vector<Card> get_deck(){
+    return cards;
+  }
       
   private:
   std::vector<Card> cards;

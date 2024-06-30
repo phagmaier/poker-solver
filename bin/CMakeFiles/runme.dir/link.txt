@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/runme.dir/src/Card.cpp.o CMakeFiles/runme.dir/src/main.cpp.o CMakeFiles/runme.dir/src/Deck.cpp.o CMakeFiles/runme.dir/src/Node.cpp.o -o runme
+/usr/bin/c++ CMakeFiles/runme.dir/src/Card.cpp.o CMakeFiles/runme.dir/src/main.cpp.o CMakeFiles/runme.dir/src/helperfunctions.cpp.o CMakeFiles/runme.dir/src/Deck.cpp.o CMakeFiles/runme.dir/src/Node.cpp.o CMakeFiles/runme.dir/src/Tree.cpp.o -o runme

@@ -201,6 +201,54 @@ src/Node.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/runme.dir/build.make CMakeFiles/runme.dir/src/Node.cpp.s
 .PHONY : src/Node.cpp.s
 
+src/Tree.o: src/Tree.cpp.o
+.PHONY : src/Tree.o
+
+# target to build an object file
+src/Tree.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/runme.dir/build.make CMakeFiles/runme.dir/src/Tree.cpp.o
+.PHONY : src/Tree.cpp.o
+
+src/Tree.i: src/Tree.cpp.i
+.PHONY : src/Tree.i
+
+# target to preprocess a source file
+src/Tree.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/runme.dir/build.make CMakeFiles/runme.dir/src/Tree.cpp.i
+.PHONY : src/Tree.cpp.i
+
+src/Tree.s: src/Tree.cpp.s
+.PHONY : src/Tree.s
+
+# target to generate assembly for a file
+src/Tree.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/runme.dir/build.make CMakeFiles/runme.dir/src/Tree.cpp.s
+.PHONY : src/Tree.cpp.s
+
+src/helperfunctions.o: src/helperfunctions.cpp.o
+.PHONY : src/helperfunctions.o
+
+# target to build an object file
+src/helperfunctions.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/runme.dir/build.make CMakeFiles/runme.dir/src/helperfunctions.cpp.o
+.PHONY : src/helperfunctions.cpp.o
+
+src/helperfunctions.i: src/helperfunctions.cpp.i
+.PHONY : src/helperfunctions.i
+
+# target to preprocess a source file
+src/helperfunctions.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/runme.dir/build.make CMakeFiles/runme.dir/src/helperfunctions.cpp.i
+.PHONY : src/helperfunctions.cpp.i
+
+src/helperfunctions.s: src/helperfunctions.cpp.s
+.PHONY : src/helperfunctions.s
+
+# target to generate assembly for a file
+src/helperfunctions.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/runme.dir/build.make CMakeFiles/runme.dir/src/helperfunctions.cpp.s
+.PHONY : src/helperfunctions.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -243,6 +291,12 @@ help:
 	@echo "... src/Node.o"
 	@echo "... src/Node.i"
 	@echo "... src/Node.s"
+	@echo "... src/Tree.o"
+	@echo "... src/Tree.i"
+	@echo "... src/Tree.s"
+	@echo "... src/helperfunctions.o"
+	@echo "... src/helperfunctions.i"
+	@echo "... src/helperfunctions.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

@@ -1,1 +1,54 @@
+What to do:
+--------------------------------------------------
 
+--------------------------------------------------
+CHANGE IT SO THAT TREE MANAGES THE HANDS
+YOU'RE USING A HELPER FUNCTION TO CALCULATE 
+HAND STRENGTH ANYWAY AND THIS MAKES IT SO 
+THAT YOU CAN MORE EASILY THREAD SHIT
+Should be stored as a std::pair<Card*, Card*>
+--------------------------------------------------
+
+MAYBE YOUR std::pairs should hold pointers since they
+don't manage memory the same way that a vector does
+
+(currently your hand is managed by a vector maybe 
+you want to change that to a pair but idk maybe 
+it would be annoying to manage it that way)
+
+(also your hand is static which makes sense seems 
+like a waste to constantly copy it but at the same 
+time it may make it hard to do threading but maybe 
+node doesn't even need to manage the hand technically 
+that is something the tree can manage)
+
+
+0). Think i forgot to set defualt 
+    strategy to uniform
+    (also need a function to set built in strats
+    for when i actually have custom and or saved strats)
+
+1. Make sure you are running tests at each step
+(make sure tree works)
+
+2. Create a way to determine which hand is better 
+
+3. Calculate ACTUAL results for nodes
+  get the result of leaf node 
+  (run x number of sims randomly sampled to do this)
+  for non root nodes you take the percentanges of both 
+  children and their results
+  (obviosuly a recursive function)
+
+4. Calculate EV 
+(EV is the expected value of making this decision so it includes the percentages 
+of you taking action x,y,z and your opponent taking actions xyz)
+  a). Find root nodes get winnigs 
+  b). every parent node   
+
+
+
+5. CALCULATE REGRET
+(REGRET = YOU ALWAYS CHOSE ACTION X (don't include your 
+pecentages only your opponents))
+      

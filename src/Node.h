@@ -48,6 +48,7 @@ class Node{
     Node(bool p1,Street street, float prev_bet, float potsize, 
          std::pair<float,float> stacks, Action prev_act, 
          int num_bets, Node *parent);
+    Node();
     static float blind;
     static std::vector<float> default_bet_sizes;
     static std::vector<Card> hand;
@@ -58,10 +59,10 @@ class Node{
     std::vector<Node> children;
     
     
-  private:
+  //private:
     float potsize; //as a representation of bb's
     float stack; //number of bb's can have a fraction 
-    char prev_act;
+    Action prev_act;
     std::vector<float> strat;
     std::vector<float> ev;
     Node *parent;

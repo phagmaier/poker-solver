@@ -92,3 +92,14 @@ Node::Street Node::get_next_street(Action prev, Action curr,
       }
       return street;
 }
+
+Node::Node(){
+  children = {};
+  potsize = 0;
+  stack = 0;
+  prev_act = CHECK;
+  strat = {};
+  ev =  {};
+  parent = NULL;
+
+}
