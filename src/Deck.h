@@ -13,34 +13,33 @@ class Deck{
   
   public:
     Deck();
-    inline void shuffle(){
-      std::random_device rd;
-      std::mt19937 g(rd());  
-      std::shuffle(cards.begin(), cards.end(), g);
-    }  
+    ~Deck();
+    static std::map<char,int> suit_dic;
     
+     void shuffle();
+
     inline void reset_deck(){
-      cards.clear(); 
-      cards.reserve(52);
-      std::copy(og_deck.begin(), og_deck.end(), std::back_inserter(cards));
+      for (int i=0; i<counter; ++i){
+        cards[i]->reset();
+      }
+
       counter = 0;
+      shuffle();
     }
 
-    Card deal();
+    Card *deal();
     inline void remove(int val, char suit){
-      dead_cards.push_back(Card(val,suit));
+      og_deck[suit_dic[suit]+val-2]->card_dealt(); 
     }
-  inline std::vector<Card> get_deck(){
+
+  inline std::vector<Card*> get_deck(){
     return cards;
   }
       
   private:
-  std::vector<Card> cards;
-  std::vector<Card> og_deck;
-  std::vector<Card> dead_cards;
+  std::vector<Card*> cards;
+  std::vector<Card*> og_deck;
   int counter;
-  bool isSame(Card card);
-
 };
 
 #endif 

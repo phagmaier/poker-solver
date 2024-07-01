@@ -1,6 +1,30 @@
 What to do:
 --------------------------------------------------
 
+Reworking the dealer class
+--------------------------------------------------
+So the deck doesn't need an array of dealt cards.
+It just needs an array of cards (not pointers)
+that is in it's original palce. We then create the 
+in use deck and that will be a vector of pointers.
+So when a card is dealt we just check it's values 
+can easilt look it up in the original table 
+based on it's suit and value and we can set it to 
+off. When we reset we just set all cards to undealt. 
+When we deal a card we just set it to dealt. When we 
+deal we just make sure it hasn't been dealt yet
+
+You'll have a standard deck which is just all the cards in 
+order. This will be the full deck. Then you'll have the 
+actual deck you use which will be pointers to these. 
+you'll basically have an on off switch 
+--------------------------------------------------
+
+
+IN THE CARD CLASS YOU CAN ACTUALLY Just ADD AN ATTRIBUTE THAT 
+IS SET TO TRUE WHEN DEALT 
+
+
 --------------------------------------------------
 CHANGE IT SO THAT TREE MANAGES THE HANDS
 YOU'RE USING A HELPER FUNCTION TO CALCULATE 

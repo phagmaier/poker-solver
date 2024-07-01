@@ -1,5 +1,21 @@
 #include "helperfunctions.h"
 
+void print_vec(std::vector<Card*> &vec){
+  int j=0;
+  for (Card *i : vec){
+    i->print_card();
+    }
+    ++j;
+}
+
+void free_sorted(std::vector<Card*> &sorted){
+  int end = sorted.size() -1;
+  while (sorted[end]->get_val() == 1){
+    delete sorted[end];
+    end -=1;
+  }
+}
+
 std::tuple<int,int,int> get_three(std::map<int,int> &dic){
   int one=0;
   int two=0;
@@ -23,11 +39,11 @@ std::tuple<int,int,int> get_three(std::map<int,int> &dic){
   return {one,two,three};
 }
 
-int get_top_five(std::vector<Card> sorted){
+int get_top_five(std::vector<Card*> &sorted){
   int count =0;
   int scaler[] = {10000,1000,100,10,1};
   for (int i=0; i<5; ++i){
-    count += sorted[i].get_val() * scaler[i];
+    count += sorted[i]->get_val() * scaler[i];
   }
   return count;
 }
@@ -135,66 +151,83 @@ std::tuple<int,int,int,int,int> get_five(std::map<int,int> &dic){
 }
 
 
-std::pair<std::map<int,int>, std::map<char,int>> get_counts(std::pair<Card,Card> &hand, std::vector<Card> comm){
+std::pair<std::map<int,int>, std::map<char,int>> get_counts(std::pair<Card*,Card*> &hand, std::vector<Card*> &comm){
   std::map<int,int> pair_count;
   std::map<char, int> suit_count;
-  pair_count[hand.first.get_val()] +=1;
-  pair_count[hand.second.get_val()] +=1;
+  pair_count[hand.first->get_val()] +=1;
+  pair_count[hand.second->get_val()] +=1;
   
-  suit_count[hand.first.get_suit()] +=1;
-  suit_count[hand.second.get_suit()] +=1;
+  suit_count[hand.first->get_suit()] +=1;
+  suit_count[hand.second->get_suit()] +=1;
 
-  for (Card &c : comm){
-    pair_count[c.get_val()] +=1;
-    suit_count[c.get_suit()] +=1;
+  for (int i=0; i<comm.size(); ++i){
+    pair_count[comm[i]->get_val()] +=1;
+    suit_count[comm[i]->get_suit()] +=1;
   }
   return {pair_count, suit_count};
 
 }
 
-
-void swap_cards(std::vector<Card> &cards, int i1, int i2){
-  Card temp = cards[i1];
+void swap_cards(std::vector<Card*> &cards, int i1, int i2){
+  Card *temp = cards[i1];
   cards[i1] = cards[i2];
   cards[i2] = temp;
 }
 
-void quicksort(std::vector<Card> &cards, int front, int back){
-  if (front >= back){
+int partition(std::vector<Card*> &cards, int start, int end){
+  Card *piv = cards[start];
+  int count =0;
+  for (int i=start+1; i<=end; ++i){
+    if (cards[i]->get_val()>=piv->get_val()){
+      ++count;
+    }
+    
+  }
+  int piv_index = start + count;
+  swap_cards(cards,piv_index, start);
+  int i=start;
+  int j = end;
+  while (i<piv_index && j > piv_index){
+    while (cards[i]->get_val()>= piv->get_val()){
+        ++i;
+      }
+      while (cards[j]->get_val()>= piv->get_val()){
+        --j;
+      }
+      if (i<piv_index && j>piv_index){
+        swap_cards(cards,i++,j--);
+    }
+    }
+ return piv_index; 
+}
+
+
+void quicksort(std::vector<Card*> &cards, int start, int end){
+    if (start>= end){
     return;
   }
-  int val = cards[back].get_val();
-  int i=front;
-  int j=back-1;
-  while (true){
-    while(cards[i].get_val() > val && i<=j){
-      ++i;
-    }
-    while(cards[j].get_val() < val && i<=j){
-      --j;
+  int p = partition(cards,start,end);
+  quicksort(cards, start, p-1);
+  quicksort(cards, p+1, end);
   }
-    if (i >=j){
-      break;
-    }
-  swap_cards(cards, i,j);
-    ++i;
-    --j;
-}
-  swap_cards(cards, i,back);
-  quicksort(cards,front, i-1);
-  quicksort(cards, i+1, back);
-}
 
-
-std::vector<Card> sort_cards(std::vector<Card> &cards, std::pair<Card, Card> &hand){
-  std::vector<Card> new_cards;
+//firstly you don't check if ace is in the starting 
+//hand and secondly the problem must be coming from here somehow
+std::vector<Card*> sort_cards(std::vector<Card*> &cards, std::pair<Card*, Card*> &hand){
+  std::vector<Card*> new_cards;
+  if (hand.first->get_val() == 14){
+    new_cards.push_back(new Card(1,hand.first->get_suit()));
+  }
+  if (hand.second->get_val() == 14){
+    new_cards.push_back(new Card(1,hand.second->get_suit()));
+  }
   new_cards.push_back(hand.first);
   new_cards.push_back(hand.second);
-  for (Card &c : cards){
-    if (c.get_val() == 14){
-      new_cards.push_back(Card(1,c.get_suit()));
+  for (int i=0; i<cards.size(); ++i){
+    if (cards[i]->get_val() == 14){
+      new_cards.push_back(new Card(1,cards[i]->get_suit()));
     }
-    new_cards.push_back(c);
+    new_cards.push_back(cards[i]);
   }
   quicksort(new_cards,0,new_cards.size()-1);
   return new_cards;
@@ -202,7 +235,7 @@ std::vector<Card> sort_cards(std::vector<Card> &cards, std::pair<Card, Card> &ha
 
 //you actually need to account for all 5 cards 
 //because they have have the same flush as you
-std::pair<handStrength, int> get_flush(std::map<char,int> &dic, std::vector<Card> &sorted){
+std::pair<handStrength, int> get_flush(std::map<char,int> &dic, std::vector<Card*> &sorted){
   bool flush = false;
   char suit;
   for (auto &i : dic){
@@ -217,36 +250,35 @@ std::pair<handStrength, int> get_flush(std::map<char,int> &dic, std::vector<Card
       return {High, 0};
     }
 
-  std::vector<Card> same_suit;
-  for (Card &i : sorted){
-    if (i.get_suit() == suit){
-      same_suit.push_back(i);
+  std::vector<Card*> same_suit;
+  for (int i=0; i<sorted.size(); ++i){
+    if (sorted[i]->get_suit() == suit){
+      same_suit.push_back(sorted[i]);
     }
   }
 
   quicksort(same_suit, 0, same_suit.size()-1);
 
       std::pair<handStrength, int> straight = get_straight(same_suit);
-  if (straight.first){
-    if (same_suit[0].get_val() == 14){
-      return {Royal_flush, 0};
-    }
-    else {
-      return {Straight_flush, straight.second};
-  }
-  }
-  //get top 5 gives sum of 
-  return {Flush, get_top_five(same_suit)};
-  
+        if (straight.first){
+          if (same_suit[0]->get_val() == 14){
+            return {Royal_flush, 0};
+          }
+          else {
+            return {Straight_flush, straight.second};
+          }
+        }
+      //get top 5 gives sum of 
+      return {Flush, get_top_five(same_suit)};
 }
 
-std::pair<handStrength, int> get_straight(std::vector<Card> &sorted){
+std::pair<handStrength, int> get_straight(std::vector<Card*> &sorted){
   for (int i=0; i<=sorted.size()-5;++i){
-    int high = sorted[i].get_val();
+    int high = sorted[i]->get_val();
     int prev = high;
     bool straight = true;
     for (int j=i+1; j<i+5; ++j){
-     if (prev-1 != sorted[j].get_val()){
+     if (prev-1 != sorted[j]->get_val()){
         straight = false;
         break;
       }
@@ -260,15 +292,19 @@ std::pair<handStrength, int> get_straight(std::vector<Card> &sorted){
 }
 
 
-std::pair<handStrength, int> get_hand_strength(std::pair<Card,Card> &hand, std::vector<Card> &community){
+std::pair<handStrength, int> get_hand_strength(std::pair<Card*,Card*> &hand, std::vector<Card*> &community){
   std::pair<handStrength,int> strength;
   std::pair<std::map<int,int>,std::map<char, int>> maps = get_counts(hand, community);
   std::pair<handStrength,int> pair_val= get_pair(maps.first);
-  std::vector<Card> sorted = sort_cards(community,hand);
+  std::vector<Card*> sorted = sort_cards(community,hand);
+
   std::pair<handStrength, int> flush= get_flush(maps.second, sorted);
+
   strength = get_max(pair_val, flush);
   std::pair<handStrength, int> straight = get_straight(sorted);
+
   strength = get_max(strength,straight);
+  free_sorted(sorted);
   return strength;    
 }
 

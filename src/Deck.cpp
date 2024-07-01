@@ -1,37 +1,47 @@
 #include "Deck.h"
 
+std::map<char,int> Deck::suit_dic = {{'C',0},{'D',13},{'H',26},{'S',39}};
+
 Deck::Deck(){
-  char suits[] = {'C', 'D', 'H', 'S'};
+  char suits[4] = {'C', 'D', 'H', 'S'};
+  int count = 0;
   for (char s : suits){ 
     for (int i=2; i<=14; ++i){
-     og_deck.push_back(Card(i,s)); 
-     cards.push_back(Card(i,s)); 
+      Card *temp = new Card(i,s);
+      og_deck.emplace_back(temp); 
+      cards.push_back(temp); 
+      ++count;
     }
   }
   counter = 0;
   shuffle();
-  dead_cards = {};
 }
- Card Deck::deal(){
-  Card temp = cards[counter];
-  bool same = isSame(temp);
-  while (same){
+
+Deck::~Deck(){
+  int count = 0;
+  for (Card *card : cards){
+    delete card;
+  }
+  og_deck.clear();
+  cards.clear();
+
+
+}
+
+Card *Deck::deal(){
+  Card *temp = cards[counter];
+  while (temp->get_dealt()){
     ++counter;
     temp = cards[counter];
-    same = isSame(temp);
   }
-  dead_cards.push_back(temp);
+  temp->card_dealt();
   ++counter;
   return temp;
 }
 
-bool Deck::isSame(Card card){
-    for (Card &c : dead_cards){
-      if (c.get_val() == card.get_val() && c.get_suit() == card.get_suit()){
-          return true;
-    }
-  }
-  return false;
-}
-
+void Deck::shuffle(){
+      std::random_device rd;
+      std::mt19937 g(rd());  
+      std::shuffle(cards.begin(), cards.end(), g);
+    } 
 

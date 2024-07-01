@@ -7,28 +7,14 @@
 #include <map>
 #include <string>
 
-int countTwo(Node *node){
-    if (!node) return 0;
-
-    int count = 1; // Count the current node
-    for (Node &child : node->children){
-        count += countTwo(&child);
-    }
-    return count;
+void print_cards(std::vector<Card*> &vec){
+  for (Card *i : vec){
+    i->print_card();
+  }
 }
 
 int main(){
-  //Node node(true, Node::FLOP, 0, 1, {100,100}, Node::CHECK, 0, NULL);
-  //int x = countTwo(&node);
-  Deck deck = Deck();
-  deck.shuffle();
-  std::pair<Card,Card> hand = {deck.deal(), deck.deal()};
-  std::vector<Card> comm;
-  for (int i=0; i<5; ++i){
-    comm.push_back(deck.deal());
-  }
-
-   std::map<handStrength, std::string> myMap = {
+  std::map<handStrength, std::string> myMap = {
         {High, "High Card"},
         {Pair, "Pair"},
         {Two_pair, "Two pair"},
@@ -40,20 +26,42 @@ int main(){
         {Straight_flush, "Straight Flush"},
         {Royal_flush, "Royal Flush"}
     };
-  
-  std::pair<handStrength,int> strength = get_hand_strength(hand, comm);
+  Deck deck = Deck();
+  int p1_wins = 0;
+  std::pair<Card*,Card*> hand1 = {deck.deal(), deck.deal()};
+  std::pair<Card*,Card*> hand2 = {deck.deal(), deck.deal()};
+  std::cout << "STARTING HAND P1:\n";
+  std::cout << "-----------------------------\n";
+  hand1.first->print_card();
+  hand1.second->print_card();
+  std::cout << "-----------------------------\n";
+  std::cout << "STARTING HAND P1:\n";
+  std::cout << "-----------------------------\n";
+  hand2.first->print_card();
+  hand2.second->print_card();
+  std::cout << "-----------------------------\n";
+  int iterations = 1000;
+  for (int i=0; i<iterations; ++i){
+    std::vector<Card*> comm;
+    for (int x=0;x<5; ++x){
+      comm.push_back(deck.deal());
+      //comm[x]->print_card();
+    }
+    std::pair<handStrength, int> strnegth1 = get_hand_strength(hand1, comm);
+    std::pair<handStrength, int> strnegth2 = get_hand_strength(hand2, comm);
+    if (did_p1_win(strnegth1 ,strnegth2)){
+      ++p1_wins;
+    }
+    deck.reset_deck();
+    hand1.first->card_dealt();
+    hand1.second->card_dealt();
+    hand2.first->card_dealt();
+    hand2.second->card_dealt();
 
-  std::cout << "Your cards are:\n";
-  std::cout << hand.first.get_val() << " " << hand.first.get_suit() << "\n";
-  std::cout << hand.second.get_val() << " " << hand.second.get_suit() << "\n";
-  std::cout << "Community cards\n";
-  for (auto &i : comm){
-    std::cout<< i.get_val() << " " << i.get_suit() << "\n";
   }
 
-
-  std::cout << "Your hand strength: " << myMap[strength.first];
-  std::cout << " " << strength.second << "\n";
+  float prct = (float)p1_wins/(float)iterations;
+  std::cout << "hand percentage of win for p1 = " << prct << "\n";
 
   return 0;
 }

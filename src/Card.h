@@ -19,11 +19,15 @@ class Card{
       std::cout << val << " " << suit << "\n";
   }
 
+    inline bool get_dealt(){return dealt;}
 
+    inline void card_dealt(){dealt=true;}
+    inline void reset(){dealt=false;}
 
   private:
     int val;
     char suit;
+    bool dealt;
 
 };
 
