@@ -1,4 +1,7 @@
 #include "helperfunctions.h"
+//need to account for chops 
+//just return a float 
+//if it's a chop you give it .5 if win give it 1
 
 void print_vec(std::vector<Card*> &vec){
   int j=0;
@@ -350,4 +353,32 @@ std::pair<handStrength,int> get_pair(std::map<int,int> &dic){
   }
    auto[one,two,three,four,five] = get_five(dic); 
   return {High, one*10000+two*1000+three*100+four*10+five};
+}
+
+float get_chance_of_winning(std::pair<Card*,Card*> hand1, std::pair<Card*,Card*> hand2, Deck &deck, std::vector<Card*> &cards){
+  int p1_wins = 0;
+  int iterations = 1000;
+  std::vector<Card*> comm;
+  for (int i=0; i<iterations; ++i){
+    for (Card *card : cards){
+      card->card_dealt();
+      comm.push_back(card);
+    }
+
+    for (int j=0;j<5-cards.size(); ++j){
+     comm.push_back(deck.deal()); 
+    }
+    std::pair<handStrength,int>strength1 = get_hand_strength(hand1,comm);
+    std::pair<handStrength,int>strength2 = get_hand_strength(hand2,comm);
+    if (did_p1_win(strength1, strength2)){
+      ++p1_wins;
+    }
+    deck.reset_deck();
+    hand1.first->card_dealt();
+    hand1.second->card_dealt();
+    hand2.first->card_dealt();
+    hand2.second->card_dealt();
+    comm.clear();
+  }
+  return (float)p1_wins/(float)iterations;
 }

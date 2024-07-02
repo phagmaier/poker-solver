@@ -3,6 +3,7 @@
  * THIS WILL PROBABLY REQUIRE YOU CONSTANTLY 
  * PASSING AN INDEX WHEN YOU GET THERE THIS 
  * WILL MAKE IT EASIER TO THREAD THOUGH AND KEEP 
+
  * TRACK OF ALL THE PROGRAMS SO EACH NODE WILL 
  * BE THE STRAT FOR ONE CARD AND ONE CARD ONLY 
  * FOR BOTH PLAYER ONE AND PLAYER 2
@@ -49,22 +50,23 @@ class Node{
          std::pair<float,float> stacks, Action prev_act, 
          int num_bets, Node *parent);
     Node();
+    
+    //USE THIS ONE FOR THE FIRST NODE SINCE YOU HAVE NO PARENT 
+    // you will have to determine how many nodes you will make before in order 
+    // to make this 
+    Node(bool p1, Street street, float prev_bet, float potsize, 
+        std::pair<float,float> stacks,
+        Action prev_act, int num_bets,Node *parent, float strat);
     static float blind;
     static std::vector<float> default_bet_sizes;
-    static std::vector<Card> hand;
-    
-    inline void set_hands(std::vector<Card> cards){
-      hand.assign(cards.begin(), cards.end());}
-    
     std::vector<Node> children;
-    
+    inline void setblind(float b){Node::blind = b;}
     
   //private:
     float potsize; //as a representation of bb's
     float stack; //number of bb's can have a fraction 
-    Action prev_act;
-    std::vector<float> strat;
-    std::vector<float> ev;
+    float strat;
+    float ev;
     Node *parent;
     Street get_next_street(Action prev, Action curr, Street street);
 }; 

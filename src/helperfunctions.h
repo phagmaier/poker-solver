@@ -1,7 +1,8 @@
 #ifndef HELPERFUNCS_H
 #define HELPERFUNCS_H 
 
-#include "Card.h" 
+#include "Card.h"
+#include "Deck.h"
 #include <utility>
 #include <vector>
 #include <map>
@@ -79,6 +80,15 @@ std::pair<handStrength, int> get_straight(std::vector<Card*> &sorted);
 
 
 std::pair<handStrength, int> get_hand_strength(std::pair<Card*,Card*> &hand, std::vector<Card*> &community);
+
+//Will pass it the deck as a pointer 
+//each players hand and a vector of all cards that 
+//need to be included in the flop
+//returns prct of the first hand winnng 
+//if p2 then just do 1 - result
+float get_chance_of_winning(std::pair<Card*,Card*> hand1, std::pair<Card*,Card*> hand2, Deck &deck, std::vector<Card*> &cards);
+
+
 
 
 #endif 

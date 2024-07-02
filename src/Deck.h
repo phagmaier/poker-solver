@@ -28,8 +28,14 @@ class Deck{
     }
 
     Card *deal();
+
     inline void remove(int val, char suit){
       og_deck[suit_dic[suit]+val-2]->card_dealt(); 
+    }
+
+    inline Card* deal_specfic(int val, char suit){
+      og_deck[suit_dic[suit]+val-2]->card_dealt(); 
+      return og_deck[suit_dic[suit]+val-2]; 
     }
 
   inline std::vector<Card*> get_deck(){
