@@ -38,6 +38,12 @@ class Deck{
       return og_deck[suit_dic[suit]+val-2]; 
     }
 
+    inline Card* deal_specfic(std::pair<int,char>card){
+      og_deck[suit_dic[card.second]+card.first-2]->card_dealt(); 
+      return og_deck[suit_dic[card.second]+card.first-2]; 
+    }
+
+
   inline std::vector<Card*> get_deck(){
     return cards;
   }

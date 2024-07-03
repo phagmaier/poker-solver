@@ -1,4 +1,8 @@
 /*
+ *
+ *
+ *
+ *
  * GOING TO have TO DO ONE CARD AT A TIME
  * THIS WILL PROBABLY REQUIRE YOU CONSTANTLY 
  * PASSING AN INDEX WHEN YOU GET THERE THIS 
@@ -61,6 +65,8 @@ class Node{
     static std::vector<float> default_bet_sizes;
     std::vector<Node> children;
     inline void setblind(float b){Node::blind = b;}
+    inline void set_strat(float s){strat=s;}
+    friend Street operator+(Street s, int);
     
   //private:
     float potsize; //as a representation of bb's

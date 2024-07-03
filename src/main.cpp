@@ -11,6 +11,8 @@
 
 
 int main(){
+  Deck deck = Deck();
+  deck.deal_specfic(14,'D')->print_card();
     return 0;
 }
 

@@ -925,6 +925,7 @@ CMakeFiles/runme.dir/src/Tree.cpp.o: /home/phagmaier/Desktop/Code/Solver/src/Tre
 
 CMakeFiles/runme.dir/src/helperfunctions.cpp.o: /home/phagmaier/Desktop/Code/Solver/src/helperfunctions.cpp \
   /home/phagmaier/Desktop/Code/Solver/src/Card.h \
+  /home/phagmaier/Desktop/Code/Solver/src/Deck.h \
   /home/phagmaier/Desktop/Code/Solver/src/helperfunctions.h \
   /usr/include/alloca.h \
   /usr/include/asm-generic/errno-base.h \
@@ -938,9 +939,18 @@ CMakeFiles/runme.dir/src/helperfunctions.cpp.o: /home/phagmaier/Desktop/Code/Sol
   /usr/include/bits/errno.h \
   /usr/include/bits/floatn-common.h \
   /usr/include/bits/floatn.h \
+  /usr/include/bits/flt-eval-method.h \
+  /usr/include/bits/fp-fast.h \
+  /usr/include/bits/fp-logb.h \
+  /usr/include/bits/iscanonical.h \
   /usr/include/bits/libc-header-start.h \
+  /usr/include/bits/libm-simd-decl-stubs.h \
   /usr/include/bits/locale.h \
   /usr/include/bits/long-double.h \
+  /usr/include/bits/math-vector.h \
+  /usr/include/bits/mathcalls-helper-functions.h \
+  /usr/include/bits/mathcalls-narrow.h \
+  /usr/include/bits/mathcalls.h \
   /usr/include/bits/pthread_stack_min-dynamic.h \
   /usr/include/bits/pthreadtypes-arch.h \
   /usr/include/bits/pthreadtypes.h \
@@ -948,6 +958,8 @@ CMakeFiles/runme.dir/src/helperfunctions.cpp.o: /home/phagmaier/Desktop/Code/Sol
   /usr/include/bits/select.h \
   /usr/include/bits/setjmp.h \
   /usr/include/bits/stdint-intn.h \
+  /usr/include/bits/stdint-least.h \
+  /usr/include/bits/stdint-uintn.h \
   /usr/include/bits/stdio_lim.h \
   /usr/include/bits/stdlib-float.h \
   /usr/include/bits/struct_mutex.h \
@@ -1033,6 +1045,8 @@ CMakeFiles/runme.dir/src/helperfunctions.cpp.o: /home/phagmaier/Desktop/Code/Sol
   /usr/include/c++/14.1.1/bits/postypes.h \
   /usr/include/c++/14.1.1/bits/predefined_ops.h \
   /usr/include/c++/14.1.1/bits/ptr_traits.h \
+  /usr/include/c++/14.1.1/bits/random.h \
+  /usr/include/c++/14.1.1/bits/random.tcc \
   /usr/include/c++/14.1.1/bits/range_access.h \
   /usr/include/c++/14.1.1/bits/ranges_algo.h \
   /usr/include/c++/14.1.1/bits/ranges_algobase.h \
@@ -1041,6 +1055,7 @@ CMakeFiles/runme.dir/src/helperfunctions.cpp.o: /home/phagmaier/Desktop/Code/Sol
   /usr/include/c++/14.1.1/bits/ranges_util.h \
   /usr/include/c++/14.1.1/bits/refwrap.h \
   /usr/include/c++/14.1.1/bits/requires_hosted.h \
+  /usr/include/c++/14.1.1/bits/specfun.h \
   /usr/include/c++/14.1.1/bits/std_abs.h \
   /usr/include/c++/14.1.1/bits/stl_algo.h \
   /usr/include/c++/14.1.1/bits/stl_algobase.h \
@@ -1053,6 +1068,7 @@ CMakeFiles/runme.dir/src/helperfunctions.cpp.o: /home/phagmaier/Desktop/Code/Sol
   /usr/include/c++/14.1.1/bits/stl_iterator_base_types.h \
   /usr/include/c++/14.1.1/bits/stl_map.h \
   /usr/include/c++/14.1.1/bits/stl_multimap.h \
+  /usr/include/c++/14.1.1/bits/stl_numeric.h \
   /usr/include/c++/14.1.1/bits/stl_pair.h \
   /usr/include/c++/14.1.1/bits/stl_relops.h \
   /usr/include/c++/14.1.1/bits/stl_tempbuf.h \
@@ -1072,9 +1088,11 @@ CMakeFiles/runme.dir/src/helperfunctions.cpp.o: /home/phagmaier/Desktop/Code/Sol
   /usr/include/c++/14.1.1/cctype \
   /usr/include/c++/14.1.1/cerrno \
   /usr/include/c++/14.1.1/clocale \
+  /usr/include/c++/14.1.1/cmath \
   /usr/include/c++/14.1.1/compare \
   /usr/include/c++/14.1.1/concepts \
   /usr/include/c++/14.1.1/cstddef \
+  /usr/include/c++/14.1.1/cstdint \
   /usr/include/c++/14.1.1/cstdio \
   /usr/include/c++/14.1.1/cstdlib \
   /usr/include/c++/14.1.1/cwchar \
@@ -1093,18 +1111,34 @@ CMakeFiles/runme.dir/src/helperfunctions.cpp.o: /home/phagmaier/Desktop/Code/Sol
   /usr/include/c++/14.1.1/iosfwd \
   /usr/include/c++/14.1.1/iostream \
   /usr/include/c++/14.1.1/istream \
+  /usr/include/c++/14.1.1/limits \
   /usr/include/c++/14.1.1/map \
   /usr/include/c++/14.1.1/new \
   /usr/include/c++/14.1.1/numbers \
+  /usr/include/c++/14.1.1/numeric \
   /usr/include/c++/14.1.1/ostream \
   /usr/include/c++/14.1.1/pstl/execution_defs.h \
   /usr/include/c++/14.1.1/pstl/glue_algorithm_defs.h \
+  /usr/include/c++/14.1.1/pstl/glue_numeric_defs.h \
   /usr/include/c++/14.1.1/pstl/pstl_config.h \
+  /usr/include/c++/14.1.1/random \
   /usr/include/c++/14.1.1/stdexcept \
   /usr/include/c++/14.1.1/streambuf \
   /usr/include/c++/14.1.1/string \
   /usr/include/c++/14.1.1/string_view \
   /usr/include/c++/14.1.1/system_error \
+  /usr/include/c++/14.1.1/tr1/bessel_function.tcc \
+  /usr/include/c++/14.1.1/tr1/beta_function.tcc \
+  /usr/include/c++/14.1.1/tr1/ell_integral.tcc \
+  /usr/include/c++/14.1.1/tr1/exp_integral.tcc \
+  /usr/include/c++/14.1.1/tr1/gamma.tcc \
+  /usr/include/c++/14.1.1/tr1/hypergeometric.tcc \
+  /usr/include/c++/14.1.1/tr1/legendre_function.tcc \
+  /usr/include/c++/14.1.1/tr1/modified_bessel_func.tcc \
+  /usr/include/c++/14.1.1/tr1/poly_hermite.tcc \
+  /usr/include/c++/14.1.1/tr1/poly_laguerre.tcc \
+  /usr/include/c++/14.1.1/tr1/riemann_zeta.tcc \
+  /usr/include/c++/14.1.1/tr1/special_function_util.h \
   /usr/include/c++/14.1.1/tuple \
   /usr/include/c++/14.1.1/type_traits \
   /usr/include/c++/14.1.1/typeinfo \
@@ -1120,6 +1154,7 @@ CMakeFiles/runme.dir/src/helperfunctions.cpp.o: /home/phagmaier/Desktop/Code/Sol
   /usr/include/c++/14.1.1/x86_64-pc-linux-gnu/bits/error_constants.h \
   /usr/include/c++/14.1.1/x86_64-pc-linux-gnu/bits/gthr-default.h \
   /usr/include/c++/14.1.1/x86_64-pc-linux-gnu/bits/gthr.h \
+  /usr/include/c++/14.1.1/x86_64-pc-linux-gnu/bits/opt_random.h \
   /usr/include/c++/14.1.1/x86_64-pc-linux-gnu/bits/os_defines.h \
   /usr/include/ctype.h \
   /usr/include/endian.h \
@@ -1130,9 +1165,11 @@ CMakeFiles/runme.dir/src/helperfunctions.cpp.o: /home/phagmaier/Desktop/Code/Sol
   /usr/include/gnu/stubs.h \
   /usr/include/linux/errno.h \
   /usr/include/locale.h \
+  /usr/include/math.h \
   /usr/include/pthread.h \
   /usr/include/sched.h \
   /usr/include/stdc-predef.h \
+  /usr/include/stdint.h \
   /usr/include/stdio.h \
   /usr/include/stdlib.h \
   /usr/include/sys/cdefs.h \
@@ -1143,12 +1180,14 @@ CMakeFiles/runme.dir/src/helperfunctions.cpp.o: /home/phagmaier/Desktop/Code/Sol
   /usr/include/wchar.h \
   /usr/include/wctype.h \
   /usr/lib/gcc/x86_64-pc-linux-gnu/14.1.1/include/stdarg.h \
-  /usr/lib/gcc/x86_64-pc-linux-gnu/14.1.1/include/stddef.h
+  /usr/lib/gcc/x86_64-pc-linux-gnu/14.1.1/include/stddef.h \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/14.1.1/include/stdint.h
 
 CMakeFiles/runme.dir/src/main.cpp.o: /home/phagmaier/Desktop/Code/Solver/src/main.cpp \
   /home/phagmaier/Desktop/Code/Solver/src/Card.h \
   /home/phagmaier/Desktop/Code/Solver/src/Deck.h \
   /home/phagmaier/Desktop/Code/Solver/src/Node.h \
+  /home/phagmaier/Desktop/Code/Solver/src/Tree.h \
   /home/phagmaier/Desktop/Code/Solver/src/helperfunctions.h \
   /usr/include/alloca.h \
   /usr/include/asm-generic/errno-base.h \
