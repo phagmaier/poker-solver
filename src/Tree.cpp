@@ -6,10 +6,9 @@ Tree::Tree(std::pair<std::pair<int,char>,std::pair<int,char>> the_hand,
         std::pair<float,float> stacks,  
         float last_bet, float potsize, Node::Action last_act,
         int num_bets,std::vector<std::pair<int,char>> dealt) : is_p1{is_p1}, 
-        bb{bb}, sb{sb}, p1_range{p1_range}, p2_range{p2_range}
+        bb{bb}, sb{sb}, p1_range{p1_range}, p2_range{p2_range},
+        head{is_p1, street, last_bet, potsize,stacks,last_act, num_bets, bb}
 {
-    head = Head(is_p1, street, last_bet, potsize,stacks, 
-                last_act, int num_bets,Node *parent, float blind)
   deck = Deck();
 
   hand = {deck.deal_specfic(the_hand.first.first, the_hand.first.second), 

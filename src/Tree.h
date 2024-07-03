@@ -71,7 +71,7 @@ class Tree{
     std::vector<Card*> dealt_cards; //cards that have to be included
   std::vector<Card*> community;
   std::vector<std::pair<Card*, Card*>> matchups;
-  std::vector<Head> head;
+  Head head;
 
 };
 
