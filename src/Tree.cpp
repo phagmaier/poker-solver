@@ -1,5 +1,6 @@
 #include "Tree.h"
 
+
 Tree::Tree(std::pair<std::pair<int,char>,std::pair<int,char>> the_hand, 
        bool is_p1, float bb, float sb, std::vector<std::pair<int,char>> p1_range,
        std::vector<std::pair<int,char>> p2_range, Node::Street street,
@@ -7,7 +8,7 @@ Tree::Tree(std::pair<std::pair<int,char>,std::pair<int,char>> the_hand,
         float last_bet, float potsize, Node::Action last_act,
         int num_bets,std::vector<std::pair<int,char>> dealt) : is_p1{is_p1}, 
         bb{bb}, sb{sb}, p1_range{p1_range}, p2_range{p2_range},
-        head{is_p1, street, last_bet, potsize,stacks,last_act, num_bets, bb}
+        head{init_head(is_p1, street, last_bet, potsize,stacks,last_act, num_bets, bb, p1_range,p2_range)}
 {
   deck = Deck();
 
@@ -18,19 +19,22 @@ Tree::Tree(std::pair<std::pair<int,char>,std::pair<int,char>> the_hand,
     dealt_cards.push_back(deck.deal_specfic(cards.first, cards.second));
   }
   community = {};
-  if (is_p1){
     for (std::pair<int,char> &c1 : p1_range){
       for (std::pair<int,char> &c2 : p2_range){
         matchups.push_back({deck.deal_specfic(c1), deck.deal_specfic(c2)});
-      }
     }
   }
-  else{
-    for (std::pair<int,char> &c1 : p2_range){
-      for (std::pair<int,char> &c2 : p2_range){
-        matchups.push_back({deck.deal_specfic(c1), deck.deal_specfic(c2)});
-      }
     }
 
+
+std::vector<Head> Tree::init_head(bool is_p1, Node::Street street, float last_bet,float potsize,
+                 std::pair<float,float> stacks, Node::Action last_act,
+                 int num_bets, float bb,std::vector<std::pair<int,char>> p1_range,
+                 std::vector<std::pair<int,char>> p2_range){
+  for (std::pair<int,char> &i : p1_range){
+    for (std::pair<int,char> &i : p2_range){
+
+    }
   }
 }
+

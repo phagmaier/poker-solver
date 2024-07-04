@@ -66,6 +66,8 @@ class Node{
     std::vector<Node> children;
     inline void setblind(float b){Node::blind = b;}
     inline void set_strat(float s){strat=s;}
+    inline void update_strat_sum(float s){strat_sum+=s;}
+    inline float get_final_strat(int iterations){return strat_sum/iterations;}
     friend Street operator+(Street s, int);
     
   //private:
@@ -73,7 +75,9 @@ class Node{
     float stack; //number of bb's can have a fraction 
     float strat;
     float ev;
+    float actual;
     Node *parent;
+    float strat_sum;
     Street get_next_street(Action prev, Action curr, Street street);
 }; 
 

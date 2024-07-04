@@ -1,33 +1,5 @@
 /*
- *Don't worry about writting it in parallel at first
- *you'' probably need multiple decks for pallel version'
- *
- *NOTE ON PRUNING :
- *Because some hands are technically equivalent
- * i.e A H 10 H and A D 10 D
- * If you play suited hands of a variety you 
- * will only select one of the possible versions
- * so instead of all you may only chose one but 
- * this get's kinda complicated cause 
- * you have to include those in their hands and 
- * the off suit variet it becomes important what 
- * you take so for now maybe include them all but in 
- * the future you'll need to prune
- *
- */
-
-/*
- *
- *SO THE TREE CAN ACTUALLY HAVE MULTIPLE HEAD NODES
- *WHERE EACH HEAD NODE REPRESENTS A DIFFERENT HAND 
- *THAT P1 CAN HAVE AS WELL AS P2 
- *SO YOUR TREE WILL ACTUALL HAVE ALL COMBINATION 
- *OF NODES I.E ACE JACK VS KING 10 ACE JACK VS AA
- * ACE TEN VS J 10 ETC...
- * 
- * can even have a vector representing the head nodes
- * for each specifc hand making it easier to actually 
- * get the ev for that specific hand
+ *NOTE THAT YOU WILL HAVE TO CHECK  
  */
 #ifndef TREE_H 
 #define TREE_H 
@@ -71,7 +43,16 @@ class Tree{
     std::vector<Card*> dealt_cards; //cards that have to be included
   std::vector<Card*> community;
   std::vector<std::pair<Card*, Card*>> matchups;
-  Head head;
+  std::vector<Head> head;
+
+  //so you won't actually have to save the ranges they 
+  //will be in the head node 
+  //or you can save the 
+  std::vector<Head> init_head(bool is_p1, Node::Street street, float last_bet, float potsize,
+                 std::pair<float,float> stacks, Node::Action last_act,
+                 int num_bets, float bb,std::vector<std::pair<int,char>> p1_range,
+                 std::vector<std::pair<int,char>> p2_range);
+
 
 };
 

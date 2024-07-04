@@ -197,4 +197,5 @@ CMakeFiles/runme.dir/src/main.cpp.o: \
  /usr/include/c++/14.1.1/bits/erase_if.h \
  /home/phagmaier/Desktop/Code/Solver/src/Node.h \
  /home/phagmaier/Desktop/Code/Solver/src/Tree.h \
+ /home/phagmaier/Desktop/Code/Solver/src/Head.h \
  /home/phagmaier/Desktop/Code/Solver/src/helperfunctions.h

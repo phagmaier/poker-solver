@@ -11,8 +11,9 @@ std::vector<float> Node::default_bet_sizes =
 Node::Node(bool p1, Street street, float prev_bet, float potsize, 
         std::pair<float,float> stacks,
         Action prev_act, int num_bets,Node *parent, float strat) : 
-          potsize{potsize}, parent{parent}, strat{strat}{
+          potsize{potsize}, parent{parent}, strat{strat}, strat_sum{0}{
     ev = 0; 
+    float actual;
     std::vector<std::pair<float, Action>> bets;
     stack = p1 ? stacks.first : stacks.second;
     if (prev_act == ALLIN){
@@ -72,7 +73,7 @@ Node::Node(bool p1, Street street, float prev_bet, float potsize,
 Node::Node(bool p1, Street street, float prev_bet, float potsize, 
         std::pair<float,float> stacks,
         Action prev_act, int num_bets,Node *parent) : 
-          potsize{potsize}, parent{parent}{
+          potsize{potsize}, parent{parent}, strat_sum{0}{
     ev = 0; 
     strat = (float)1/(parent->children.size());
     std::vector<std::pair<float, Action>> bets;
@@ -163,5 +164,6 @@ Node::Node(){
   strat = 0;
   ev =  0;
   parent = NULL;
+  strat_sum=0;
 
 }

@@ -10,6 +10,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/phagmaier/Desktop/Code/Solver/src/Card.cpp" "CMakeFiles/runme.dir/src/Card.cpp.o" "gcc" "CMakeFiles/runme.dir/src/Card.cpp.o.d"
   "/home/phagmaier/Desktop/Code/Solver/src/Deck.cpp" "CMakeFiles/runme.dir/src/Deck.cpp.o" "gcc" "CMakeFiles/runme.dir/src/Deck.cpp.o.d"
+  "/home/phagmaier/Desktop/Code/Solver/src/Head.cpp" "CMakeFiles/runme.dir/src/Head.cpp.o" "gcc" "CMakeFiles/runme.dir/src/Head.cpp.o.d"
   "/home/phagmaier/Desktop/Code/Solver/src/Node.cpp" "CMakeFiles/runme.dir/src/Node.cpp.o" "gcc" "CMakeFiles/runme.dir/src/Node.cpp.o.d"
   "/home/phagmaier/Desktop/Code/Solver/src/Tree.cpp" "CMakeFiles/runme.dir/src/Tree.cpp.o" "gcc" "CMakeFiles/runme.dir/src/Tree.cpp.o.d"
   "/home/phagmaier/Desktop/Code/Solver/src/helperfunctions.cpp" "CMakeFiles/runme.dir/src/helperfunctions.cpp.o" "gcc" "CMakeFiles/runme.dir/src/helperfunctions.cpp.o.d"
