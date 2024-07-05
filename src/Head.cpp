@@ -3,7 +3,6 @@
 Head::Head(bool p1, Node::Street street, float prev_bet, float potsize, 
         std::pair<float,float> stacks, Node::Action prev_act, int num_bets, float blind){
 
-    
 std::vector<std::pair<float, Node::Action>> bets;
     float stack = p1 ? stacks.first : stacks.second;
     if (prev_act == Node::ALLIN){
@@ -52,8 +51,15 @@ std::vector<std::pair<float, Node::Action>> bets;
         myStack = {stacks.first, stack-bet};
         }
         num_bets = action == Node::BET ? num_bets +1 : 0;
+        
+
+        /* PROPER NODE CONSTRUCTOR
+        *bool p1, Street street, float prev_bet, float potsize, 
+        std::pair<float,float> stacks,
+        Action prev_act, int num_bets,Node *parent, float strat
+        */
         nodes.push_back(Node(player,next,bet, potsize+bet,
-                                myStack,action, num_bets, NULL));
+                                myStack,action, num_bets, NULL, 0));
       }
     }
     float strat = (float)1/nodes.size();
@@ -64,13 +70,13 @@ std::vector<std::pair<float, Node::Action>> bets;
 
 
 
-Node::Street Node::get_next_street(Action prev, Action curr, 
+Node::Street Head::get_next_street(Node::Action prev, Node::Action curr, 
                              Node::Street street){
-    if ((street == RIVER && curr == prev) || curr == FOLD || 
-        (curr==ALLIN && prev == ALLIN)){
-      return DONE;
+    if ((street == Node::RIVER && curr == prev) || curr == Node::FOLD || 
+        (curr==Node::ALLIN && prev == Node::ALLIN)){
+      return Node::DONE;
     }
-    else if (curr == CALL || curr == prev){
+    else if (curr == Node::CALL || curr == prev){
         return street + 1;
       }
       return street;

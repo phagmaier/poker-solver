@@ -78,7 +78,7 @@ class Node{
     float actual;
     Node *parent;
     float strat_sum;
-    Street get_next_street(Action prev, Action curr, Street street);
+    Node::Street get_next_street(Action prev, Action curr, Street street);
 }; 
 
 #endif 

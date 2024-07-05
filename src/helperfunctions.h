@@ -9,6 +9,8 @@
 #include <tuple>
 #include <algorithm>
 #include <stdexcept>
+#include <fstream>
+#include <string>
 
 enum handStrength{
   High=0,
@@ -88,7 +90,9 @@ std::pair<handStrength, int> get_hand_strength(std::pair<Card*,Card*> &hand, std
 //if p2 then just do 1 - result
 float get_chance_of_winning(std::pair<Card*,Card*> hand1, std::pair<Card*,Card*> hand2, Deck &deck, std::vector<Card*> &cards);
 
+std::map<std::string, int> gen_dic();
 
+std::map<std::string, int> *gen_dic_ptr();
 
 
 #endif 

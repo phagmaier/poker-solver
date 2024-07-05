@@ -382,3 +382,76 @@ float get_chance_of_winning(std::pair<Card*,Card*> hand1, std::pair<Card*,Card*>
   }
   return (float)p1_wins/(float)iterations;
 }
+
+
+
+std::map<std::string, int> gen_dic(){
+  std::string line;
+  std::map<std::string, int> dic;
+  std::ifstream file("../Assets/handrankings.txt");
+    if (file.is_open()) {
+        while (getline(file, line)) {
+           int i =0;
+           char c = line[0];
+            std::string key = "";
+            while (c!=','){
+              if (c!='-'){
+                key+= c;
+              }
+              ++i;
+              c = line[i];
+            }
+            std::string val = "";
+            ++i;
+            c = line[i];
+            while (i<line.size()){
+              val += c;
+              ++i;
+              c = line[i];
+            }
+          dic[key] = std::stoi(val);
+        }
+        file.close();
+    }
+    else{
+      std::cout << "COULD NOT FIND OR OPEN FILE\n";
+    }
+  return dic;
+}
+
+
+std::map<std::string, int> *gen_dic_ptr(){
+  std::string line;
+  std::map<std::string, int> *dic = new std::map<std::string, int>;
+  std::ifstream file("../Assets/handrankings.txt");
+    if (file.is_open()) {
+        while (getline(file, line)) {
+           int i =0;
+           char c = line[0];
+            std::string key = "";
+            while (c!=','){
+              if (c!='-'){
+                key+= c;
+              }
+              ++i;
+              c = line[i];
+            }
+            std::string val = "";
+            ++i;
+            c = line[i];
+            while (i<line.size()){
+              val += c;
+              ++i;
+              c = line[i];
+            }
+          (*dic)[key] = std::stoi(val);
+        }
+        file.close();
+    }
+    else{
+      std::cout << "COULD NOT FIND OR OPEN FILE\n";
+    }
+  return dic;
+}
+
+

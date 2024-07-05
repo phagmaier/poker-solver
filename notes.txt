@@ -1,6 +1,14 @@
 What to do:
 --------------------------------------------------
 
+PRUNING
+--------------------------------------------------
+to make it faster need to think of an efficient 
+way to remove what are essentially duplicates 
+i.e Ace Jack offsuit you current have 
+all of these cards but there has to be an efficient 
+way to reduce this
+
 STUFF TO CONSIDER
 -------------------
 PROBABLY WON'T BE IN TREE YOU'LL PROBABLY HAVE A FUNCTION IN MAIN THAT HANDLES 

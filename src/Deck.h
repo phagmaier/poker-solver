@@ -1,5 +1,12 @@
-//YOU ARE CURRENTLY MAKING COPIES OF CARDS
-//MAY BE SLIGHTLY FASTER / BETTER TO USE POINTERS
+/*
+* something super fucky is going up with 
+* old constructor idk why it's not working 
+* i suspect that it has something to do with
+* the fact that you aren't setting the cards to NULL ptrs 
+* but honesty i have no idea idk how you even could it's 
+* so fucking strange
+*
+*/ 
 #ifndef DEALER_H 
 #define DEALER_H
 #include <vector>
