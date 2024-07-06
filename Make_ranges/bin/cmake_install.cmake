@@ -1,4 +1,4 @@
-# Install script for directory: /home/phagmaier/Desktop/Code/Ranges
+# Install script for directory: /home/phagmaier/Desktop/Code/Solver/Make_ranges
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -57,6 +57,6 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-  file(WRITE "/home/phagmaier/Desktop/Code/Ranges/bin/${CMAKE_INSTALL_MANIFEST}"
+  file(WRITE "/home/phagmaier/Desktop/Code/Solver/Make_ranges/bin/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

@@ -49,14 +49,14 @@ def main(file_name, data):
     face_cards = {'a':'14', 'k':'13', 'q':'12', 'j':'11', 't':'10'}
     
 
-    card1=data[0] 
-    card2 = data[1]
+    card1=data[0].lower() 
+    card2 = data[1].lower()
     suit = data[2].lower()
     #card1 = card1.lower()
     #card2 = card2.lower()
-    if card1.lower() in face_cards.keys():
+    if card1 in face_cards.keys():
         card1 = face_cards[card1]
-    if card2.lower() in face_cards.keys():
+    if card2 in face_cards.keys():
         card2 = face_cards[card2]
     
     temp = get_combos(card1, card2, suit)

@@ -6,6 +6,11 @@
 #include <utility>
 #include <fstream>
 
+#define CARDFONTSIZE 16 
+#define BUTTONFONTSIZE 20 
+#define SPACING 5
+
+
 void write_ranges(bool clicked[13][13], std::string cards[13][13],
                   std::map<int,std::string> *dic){
 
@@ -46,7 +51,7 @@ int main(){
     {1,"K"}, {0,"A"}};
   int rows = 13;
   int cols = 13;
-  int screenW = 1000; 
+  int screenW = 1001; 
   int screenH = 600;
   int boxX = 0;
   int boxY=0;
@@ -59,15 +64,20 @@ int main(){
   Rectangle textBoxes[13][13];
   std::string cards[13][13];
   bool clicked[13][13];
+
+  std::cout <<"\n\n\n" << screenW << "\n";
   //InitWindow(0,0,"RANGES"); 
   InitWindow(screenW,screenH + 100,"RANGES"); 
+  Font font_20 = LoadFontEx("../assets/ubuntu.regular.ttf", 20, NULL, 0); 
+  Font font_16 = LoadFontEx("../assets/ubuntu.regular.ttf", 16, NULL, 0); 
   //screenW = GetMonitorWidth(GetCurrentMonitor())/2;
   //screenH = GetMonitorHeight(GetCurrentMonitor())/2;
 
   //SetWindowSize(screenW,screenH);
-  boxW = (float)screenW/13;
-  boxH = (float)screenH/13;
-  std::cout <<"Box height: " << boxH << "\n";
+  boxW = screenW/13;
+  boxH = screenH/13;
+  //std::cout << "REMAINING WIDTH: " << remainingWidth << "\n\n\n";
+  //std::cout <<"Box height: " << boxH << "\n";
 
   SetTargetFPS(40);
   int count = 0;
@@ -91,7 +101,9 @@ int main(){
   }
 
 
-  Rectangle done_box = Rectangle{(float)(screenW)/2,textBoxes[12][12].y+boxH + 25 ,100,50};
+  float buttonH = 50;
+  float buttonW = 125;
+  Rectangle done_box = Rectangle{(float)(screenW)/2,textBoxes[12][12].y+boxH + 25 ,buttonW,buttonH };
 
   while (!WindowShouldClose()){
 
@@ -120,12 +132,14 @@ int main(){
         DrawRectangleRec(textBoxes[i][x], LIGHTGRAY);
         }
         DrawRectangleLines(textBoxes[i][x].x, textBoxes[i][x].y, boxW, boxH, DARKGRAY);
-        DrawText(cards[i][x].c_str(), textBoxes[i][x].x+5, textBoxes[i][x].y+5, 16, BLACK);
+        //DrawText(cards[i][x].c_str(), textBoxes[i][x].x+5, textBoxes[i][x].y+5, 16, BLACK);
+        DrawTextEx(font_16,cards[i][x].c_str(), {textBoxes[i][x].x+10, textBoxes[i][x].y+15}, CARDFONTSIZE, SPACING, BLACK);
       }
     }
-    DrawRectangleRec(done_box, LIGHTGRAY);
-    DrawRectangleLines(done_box.x, done_box.y, 100, 50, DARKGRAY);
-    DrawText("Finished", done_box.x+10, done_box.y+10, 20, BLACK);
+    DrawRectangleRec(done_box, BLACK);
+    DrawRectangleLines(done_box.x, done_box.y, 125, 50, DARKGRAY);
+    //DrawText("Finished", done_box.x+10, done_box.y+10, 20, BLACK);
+    DrawTextEx(font_20,"DONE", {done_box.x+30, done_box.y+15}, BUTTONFONTSIZE, SPACING, WHITE);
 
 
     EndDrawing();
