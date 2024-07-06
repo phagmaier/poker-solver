@@ -46,12 +46,12 @@ def get_combos(c1, c2, s):
 
 def main(file_name, data):
     ranges = set()
-    face_cards = {'a':'14', 'k':'13', 'q':'12', 'j':'11'}
+    face_cards = {'a':'14', 'k':'13', 'q':'12', 'j':'11', 't':'10'}
     
 
     card1=data[0] 
     card2 = data[1]
-    suit = data[2]
+    suit = data[2].lower()
     #card1 = card1.lower()
     #card2 = card2.lower()
     if card1.lower() in face_cards.keys():
