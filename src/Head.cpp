@@ -1,7 +1,8 @@
 #include "Head.h"
 
 Head::Head(bool p1, Node::Street street, float prev_bet, float potsize, 
-        std::pair<float,float> stacks, Node::Action prev_act, int num_bets, float blind){
+        std::pair<float,float> stacks, Node::Action prev_act, int num_bets, float blind, 
+           std::pair<float,float> player_bets){
 
 std::vector<std::pair<float, Node::Action>> bets;
     float stack = p1 ? stacks.first : stacks.second;
@@ -38,6 +39,16 @@ std::vector<std::pair<float, Node::Action>> bets;
     
     for (std::pair<float, Node::Action> const &i : bets){
       float bet = i.first;
+      std::pair<float,float> new_bets;
+      if (p1){
+        new_bets.first = player_bets.first + bet;
+        new_bets.second = player_bets.second;
+      }
+      else{
+        new_bets.second = player_bets.second + bet;
+        new_bets.second = player_bets.first;
+
+      }
       Node::Action action = i.second;
       Node::Street next = get_next_street(prev_act, action,street);
       if (next != Node::DONE){
@@ -59,7 +70,7 @@ std::vector<std::pair<float, Node::Action>> bets;
         Action prev_act, int num_bets,Node *parent, float strat
         */
         nodes.push_back(Node(player,next,bet, potsize+bet,
-                                myStack,action, num_bets, NULL, 0));
+                                myStack,action, num_bets, NULL, 0, new_bets));
       }
     }
     float strat = (float)1/nodes.size();

@@ -383,9 +383,47 @@ float get_chance_of_winning(std::pair<Card*,Card*> hand1, std::pair<Card*,Card*>
   return (float)p1_wins/(float)iterations;
 }
 
+//NEW SHIT 
+void str_swap(std::string &str, int one, int two) {
+    std::swap(str[one], str[two]);
+    std::swap(str[one + 1], str[two + 1]);
+}
 
+int part(std::string &str, int start, int end, std::map<char, int> &dic, std::map<char, int> &dic2) {
+    char piv = str[start];
+    char piv2 = str[start+1];
+    int piv_index = start;
 
+    for (int i = start + 2; i <= end; i += 2) {
+        if ((dic[str[i]] + dic2[str[i+1]]) < (dic[piv] + dic2[piv2])) {
+            piv_index += 2;
+            str_swap(str, piv_index, i);
+        }
+    }
+    str_swap(str, start, piv_index);
+    return piv_index;
+}
+
+void dicSort(std::string &str, int start, int end, std::map<char, int> &dic, std::map<char, int> &dic2) {
+    if (start >= end) {
+        return;
+    }
+    int p = part(str, start, end, dic, dic2);
+    dicSort(str, start, p - 2, dic,dic2);
+    dicSort(str, p + 2, end, dic,dic2);
+}
+
+//if there are pairs you have to swap them and add them as well
 std::map<std::string, int> gen_dic(){
+
+  std::map<char,int> charDic = {{'A',14}, {'K',13},{'Q',12},
+    {'J',10}, {'T',10},{'9',9},{'8',8},{'7',7},{'6',6},
+    {'5',5},{'4',4},{'3',3},{'2',2}};
+
+  std::map<char, int> suiteDic = {
+      {'s',1}, {'c',2}, {'h',3}, {'d',4}
+    };
+
   std::string line;
   std::map<std::string, int> dic;
   std::ifstream file("../Assets/handrankings.txt");
@@ -409,6 +447,7 @@ std::map<std::string, int> gen_dic(){
               ++i;
               c = line[i];
             }
+          dicSort(key,0,key.size()-1,charDic, suiteDic);
           dic[key] = std::stoi(val);
         }
         file.close();

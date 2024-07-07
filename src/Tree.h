@@ -8,6 +8,9 @@
 #include "Deck.h"
 #include <utility>
 #include "Head.h"
+#include <map>
+#include <string>
+#include "helperfunctions.h"
 
 using hand_pairs = std::pair<std::pair<int, char>, std::pair<int,char>>;
 /*
@@ -21,6 +24,8 @@ bool p1,Street street, float prev_bet, float potsize,
 //DON'T THINK I ACTUALLY NEED THE ABOVE SINCE WE SOLVE FROM WHERE WE ARE 
 class Tree{
   public:
+  static std::map<char, int> suiteDic ;
+  static std::map<char,int> charDic ;
   //The actual hand we have, which player, big blind, 
   //small blind, the range of hands P1 can have,
   //the range of hands p2 can have, 
@@ -29,23 +34,28 @@ class Tree{
        std::vector<hand_pairs> p2_range, Node::Street street,
         std::pair<float,float> stacks,  
         float last_bet, float potsize, Node::Action last_act,
-        int num_bets,std::vector<std::pair<int,char>> dealt);
+        int num_bets,std::vector<std::pair<int,char>> dealt, 
+       std::pair<float,float> player_bets);
 
-  
-  //std::pair<std::pair<int,char>,std::pair<int,char>> hand;
   bool is_p1;
   float bb;
   float sb;
   std::vector<hand_pairs> p1_range;
   std::vector<hand_pairs> p2_range;
-
+  int num_dealt;
   Deck deck;
 
-  std::pair<Card*,Card*> hand;
+  std::pair<Card,Card> hand;
     std::vector<Card*> dealt_cards; //cards that have to be included
-  std::vector<Card*> community;
+  //std::vector<Card*> community;
   std::vector<std::pair<hand_pairs,hand_pairs>> matchups;
   std::vector<Head> head;
+
+  std::vector<std::vector<Card*>> community;
+  //std::map<std::string, int> rankings;
+  
+  //true if p1 wins at showdown false if not
+  std::vector<bool> winners;
   
 
   //***NOTE****:
@@ -56,11 +66,13 @@ class Tree{
   std::vector<Head> init_head(bool is_p1, Node::Street street, float last_bet, float potsize,
                  std::pair<float,float> stacks, Node::Action last_act,
                  int num_bets, float bb,std::vector<hand_pairs> p1_range,
-                 std::vector<hand_pairs> p2_range);
+                 std::vector<hand_pairs> p2_range, std::pair<float,float> player_bets);
 
-
-
+  void init_cards(std::vector<Card*> &cards);
+  void make_community_cards();
+  void cfrm();
 
 };
+
 
 #endif 

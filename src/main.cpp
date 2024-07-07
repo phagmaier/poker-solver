@@ -34,9 +34,11 @@ int main(){
       Node::Action last_act = Node::CHECK;
       int num_bets = 0;
       std::vector<std::pair<int,char>> flop = {{13,'h'}, {13,'c'}, {14,'h'}};
-      Tree tree = Tree(hand,is_p1,bb,sb,p1_range,p2_range, street, stacks, last_bet,potsize,last_act,num_bets,flop);
-      std::map<std::string, int> dic = gen_dic();
-      std::cout << dic["2c2d2h2s3c"] << "\n";
+      Tree tree = Tree(hand,is_p1,bb,sb,p1_range,p2_range, street, stacks, last_bet,potsize,last_act,num_bets,flop, {0,0});
+      //std::map<std::string, int> dic = gen_dic();
+      //std::cout << dic["2c2d2h2s3c"] << "\n";
+      //std::cout << dic["Ah10d3c3s2s"] << "\n";
+      //std::cout << dic["2s3c3sTdAh"] << "\n";
       //std::map<std::string, int> *dic = gen_dic_ptr();
       //std::cout << (*dic)["2c-2d-2h-2s-3c"] << "\n";
       //std::cout << (*dic)["Ac-Ad-Ah-As-Ks"] << "\n";

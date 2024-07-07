@@ -12,6 +12,7 @@
 #include <fstream>
 #include <string>
 
+
 enum handStrength{
   High=0,
   Pair,
@@ -47,7 +48,16 @@ inline std::pair<handStrength, int> get_max(std::pair<handStrength,int> &one, st
   return static_cast<int>(one.first) > static_cast<int>(two.first) ? one : two;
 }
 
+/*
 inline bool did_p1_win(std::pair<handStrength,int> &one, std::pair<handStrength,int> &two){
+  if (one.first == two.first){
+    return one.second > two.second ? true : false;
+  }
+  return static_cast<int>(one.first) > static_cast<int>(two.first) ? true : false;
+}
+*/
+
+inline bool did_p1_win(std::pair<handStrength,int> one, std::pair<handStrength,int> two){
   if (one.first == two.first){
     return one.second > two.second ? true : false;
   }
@@ -89,6 +99,8 @@ std::pair<handStrength, int> get_hand_strength(std::pair<Card*,Card*> &hand, std
 //returns prct of the first hand winnng 
 //if p2 then just do 1 - result
 float get_chance_of_winning(std::pair<Card*,Card*> hand1, std::pair<Card*,Card*> hand2, Deck &deck, std::vector<Card*> &cards);
+
+void dicSort(std::string &str, std::map<char,int> &dic);
 
 std::map<std::string, int> gen_dic();
 

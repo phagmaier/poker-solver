@@ -3,6 +3,7 @@
 
 #include "Node.h"
 #include <vector>
+#include <utility>
 
 //for now head will just be the start of each street 
 //i.e action will just be check eventually i guess you can
@@ -13,7 +14,8 @@
 class Head{
   public:
     Head(bool p1, Node::Street street, float prev_bet, float potsize, 
-        std::pair<float,float> stacks, Node::Action prev_act, int num_bets, float blind);
+        std::pair<float,float> stacks, Node::Action prev_act, int num_bets, float blind,
+         std::pair<float,float> player_bets);
     
     std::vector<Node> nodes;
 

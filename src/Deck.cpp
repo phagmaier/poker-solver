@@ -20,24 +20,18 @@ Deck::Deck(){
 
 Deck::~Deck(){
 
-    std::cout << "deck destructor called.\n";
-    std::cout << "DELETING CARDS\n";
     //for (Card *card : cards){
       for (int i=0; i< og_deck.size(); ++i){
       if (og_deck[i]){
         //delete card;
         delete og_deck[i];
-        og_deck[i] = NULL;
-        cards[i] = NULL;
+        //og_deck[i] = NULL;
+        //cards[i] = NULL;
       }
     }
-  //cards = {};
-  //og_deck = {};
-  std::cout << "ALL CARDS DELETED SUCESFULLY\n";
   og_deck.clear();
   cards.clear();
 
-  std::cout << "Deck construcor completed\n";
 }
 
 Card *Deck::deal(){

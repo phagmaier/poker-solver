@@ -51,11 +51,11 @@ int main(){
     {1,"K"}, {0,"A"}};
   int rows = 13;
   int cols = 13;
-  int screenW = 1001; 
-  int screenH = 600;
+  int screenW = 1000; 
+  int screenH = 500;
   int boxX = 0;
   int boxY=0;
-  int boxW, boxH;
+  float boxW, boxH;
   bool clickedBox = false;
   int clickedX = -1;
   int clickedY;
@@ -64,8 +64,6 @@ int main(){
   Rectangle textBoxes[13][13];
   std::string cards[13][13];
   bool clicked[13][13];
-
-  std::cout <<"\n\n\n" << screenW << "\n";
   //InitWindow(0,0,"RANGES"); 
   InitWindow(screenW,screenH + 100,"RANGES"); 
   Font font_20 = LoadFontEx("../assets/ubuntu.regular.ttf", 20, NULL, 0); 
@@ -74,10 +72,9 @@ int main(){
   //screenH = GetMonitorHeight(GetCurrentMonitor())/2;
 
   //SetWindowSize(screenW,screenH);
-  boxW = screenW/13;
-  boxH = screenH/13;
-  //std::cout << "REMAINING WIDTH: " << remainingWidth << "\n\n\n";
-  //std::cout <<"Box height: " << boxH << "\n";
+  boxW = (float)screenW/13;
+  boxH = (float)screenH/13;
+  std::cout <<"Box height: " << boxH << "\n";
 
   SetTargetFPS(40);
   int count = 0;
@@ -99,7 +96,6 @@ int main(){
     }
     offsuite++;
   }
-
 
   float buttonH = 50;
   float buttonW = 125;

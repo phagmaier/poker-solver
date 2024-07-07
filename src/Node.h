@@ -52,7 +52,7 @@ class Node{
     //You actually need both players stack sizes
     Node(bool p1,Street street, float prev_bet, float potsize, 
          std::pair<float,float> stacks, Action prev_act, 
-         int num_bets, Node *parent);
+         int num_bets, Node *parent, std::pair<float,float> my_bets);
     Node();
     
     //USE THIS ONE FOR THE FIRST NODE SINCE YOU HAVE NO PARENT 
@@ -60,7 +60,7 @@ class Node{
     // to make this 
     Node(bool p1, Street street, float prev_bet, float potsize, 
         std::pair<float,float> stacks,
-        Action prev_act, int num_bets,Node *parent, float strat);
+        Action prev_act, int num_bets,Node *parent, float strat, std::pair<float,float>my_bets);
     static float blind;
     static std::vector<float> default_bet_sizes;
     std::vector<Node> children;
@@ -73,11 +73,13 @@ class Node{
   //private:
     float potsize; //as a representation of bb's
     float stack; //number of bb's can have a fraction 
+    float player_bets;
     float strat;
     float ev;
     float actual;
     Node *parent;
     float strat_sum;
+    float regret;
     Node::Street get_next_street(Action prev, Action curr, Street street);
 }; 
 

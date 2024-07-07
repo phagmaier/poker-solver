@@ -1,0 +1,39 @@
+GETTING THE REGRETS:
+--------------------------------------------------
+
+1. Get the EV of all child nodes
+  --EV = the percentage of you ALWAYS chosing this 
+  action meaning you only consider the opposing players
+  strat and pretend you make this decision 100% of the time
+
+2. Get the ACTUAL value meaning the percentage of you 
+  chosing to make this decision combined with your 
+  opps strat 
+
+3. REGRET = ACTUAL - EV - TOTAL
+  (if you SHOULD do action X TOTAL should be bigger
+  so you should chose total meaning your regret will be 
+  positive)
+
+
+GETTING EV
+--------------------------------------------------
+(NOTE THAT A TREE CONTAINS BOTH PLAYERS)
+
+So you will need a function that will traverse 
+the each section of the tree recursivley with a 
+pair for player 1 and player 2 (Note that you 
+should try to only traverse the tree once and do 
+all this at the same time) and when you encounter a 
+root node you can return and send it up with 
+the percentage of the OPPOSING PLAYER along with 
+the results (- means lost pot + means won) 
+(NOTE TOTAL WON = potsize - (og_stack - curr_stack)
+need to subtract how much you bet to account for all 
+ins and folds cause we always add to pot size on every
+bet regardless of if it's called or not)
+
+IN TREE YOU ALSO NEED TO DETRMINE BEFORE HAND WHO WINS 
+THE POT IF WE REACH A TERMINAL NODE THAT ISN'T A FOLD
+ALL YOU DO THERE IS JUST PULL FROM THE DIC of hands that 
+win with the rankings where smaller is better

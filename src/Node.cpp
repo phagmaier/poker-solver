@@ -10,9 +10,11 @@ std::vector<float> Node::default_bet_sizes =
 
 Node::Node(bool p1, Street street, float prev_bet, float potsize, 
         std::pair<float,float> stacks,
-        Action prev_act, int num_bets,Node *parent, float strat) : 
+        Action prev_act, int num_bets,Node *parent, float strat, std::pair<float,float> my_bets) : 
           potsize{potsize}, parent{parent}, strat{strat}, strat_sum{0}{
+    player_bets = p1 ? my_bets.first : my_bets.second;  
     ev = 0; 
+    regret = 0;
     float actual;
     std::vector<std::pair<float, Action>> bets;
     stack = p1 ? stacks.first : stacks.second;
@@ -48,8 +50,22 @@ Node::Node(bool p1, Street street, float prev_bet, float potsize,
     }
     
     for (std::pair<float, Action> const &i : bets){
+      std::pair<float,float> new_player_bets;
       float bet = i.first;
       Action action = i.second;
+      //because you switch between p1 and p2
+      // children are the next player so the bet is 
+      // for the next player not current so we 
+      // switch who we assign the bet to 
+      // p2 meaning if it's not p1 we set the new  
+      if (!p1){
+        new_player_bets.first = player_bets + bet;
+        new_player_bets.second = my_bets.second;
+      }
+      else{
+        new_player_bets.second = player_bets + bet;
+        new_player_bets.first = my_bets.first;
+      }
       Street next = get_next_street(prev_act, action,street);
       if (next != DONE){
         bool player = p1 ? false : true;
@@ -63,7 +79,7 @@ Node::Node(bool p1, Street street, float prev_bet, float potsize,
         }
         num_bets = action == BET ? num_bets +1 : 0;
         children.push_back(Node(player,next,bet, potsize+bet,
-                                myStack,action, num_bets, this));
+                                myStack,action, num_bets, this,new_player_bets));
       }
     }
   
@@ -72,8 +88,9 @@ Node::Node(bool p1, Street street, float prev_bet, float potsize,
 
 Node::Node(bool p1, Street street, float prev_bet, float potsize, 
         std::pair<float,float> stacks,
-        Action prev_act, int num_bets,Node *parent) : 
+        Action prev_act, int num_bets,Node *parent, std::pair<float,float> my_bets) : 
           potsize{potsize}, parent{parent}, strat_sum{0}{
+    player_bets = p1 ? my_bets.first : my_bets.second;
     ev = 0; 
     strat = (float)1/(parent->children.size());
     std::vector<std::pair<float, Action>> bets;
@@ -110,7 +127,18 @@ Node::Node(bool p1, Street street, float prev_bet, float potsize,
     }
     
     for (std::pair<float, Action> const &i : bets){
+      std::pair<float,float> new_player_bets;
       float bet = i.first;
+      if (!p1){
+        new_player_bets.first = player_bets + bet;
+        new_player_bets.second = my_bets.second;
+      }
+      else{
+        new_player_bets.second = player_bets + bet;
+        new_player_bets.first = my_bets.first;
+
+      }
+
       Action action = i.second;
       Street next = get_next_street(prev_act, action,street);
       if (next != DONE){
@@ -125,7 +153,7 @@ Node::Node(bool p1, Street street, float prev_bet, float potsize,
         }
         num_bets = action == BET ? num_bets +1 : 0;
         children.push_back(Node(player,next,bet, potsize+bet,
-                                myStack,action, num_bets, this));
+                                myStack,action, num_bets, this, new_player_bets));
       }
     }
   
