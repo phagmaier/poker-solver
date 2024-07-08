@@ -1,78 +1,33 @@
-/*
- *NOTE THAT YOU WILL HAVE TO CHECK  
- */
-#ifndef TREE_H 
-#define TREE_H 
+#ifndef TREE_H
+#define TREE_H
+
+#include <vector>
 #include "Node.h"
 #include "Card.h"
 #include "Deck.h"
 #include <utility>
-#include "Head.h"
-#include <map>
-#include <string>
-#include "helperfunctions.h"
 
-using hand_pairs = std::pair<std::pair<int, char>, std::pair<int,char>>;
-/*
-bool p1,Street street, float prev_bet, float potsize, 
-         std::pair<float,float> stacks, Action prev_act, 
-         int num_bets, Node *parent
-*/
-//takes a vector of the street and the bet to determine 
-//the ranges
-//using histVec = std::vector<std::pair<Node::Street, float>>;
-//DON'T THINK I ACTUALLY NEED THE ABOVE SINCE WE SOLVE FROM WHERE WE ARE 
+using hand_pair = std::pair<std::pair<int, char>, std::pair<int, char>>;
+using card_pairs = std::pair<std::pair<Card*,Card*>, std::pair<Card*,Card*>>;
 class Tree{
   public:
-  static std::map<char, int> suiteDic ;
-  static std::map<char,int> charDic ;
-  //The actual hand we have, which player, big blind, 
-  //small blind, the range of hands P1 can have,
-  //the range of hands p2 can have, 
-  Tree(hand_pairs the_hand, 
-       bool is_p1, float bb, float sb, std::vector<hand_pairs> p1_range,
-       std::vector<hand_pairs> p2_range, Node::Street street,
-        std::pair<float,float> stacks,  
-        float last_bet, float potsize, Node::Action last_act,
-        int num_bets,std::vector<std::pair<int,char>> dealt, 
-       std::pair<float,float> player_bets);
+    Tree(hand_pair hand,std::vector<std::pair<int,char>> dealt,std::vector<hand_pair> p1_range, 
+         std::vector<hand_pair> p2_range, std::pair<float,float> stacks);
+    static std::vector<float> bet_sizes;
+    hand_pair hand;
+    std::vector<std::pair<int,char>> dealt;
+    std::vector<hand_pair> p1_range;
+    std::vector<hand_pair> p2_range;
+    std::pair<float,float> stacks;
+    Deck deck; 
+    std::map<std::pair<Card*, Card*>, std::vector<std::pair<Card*,Card*>>> matchups_p1;
+    std::map<std::pair<Card*,Card*>, std::vector<std::pair<Card*,Card*>>> matchups_p2; //gives index of hands going against one another
+    std::map<std::pair<Card*,Card*>,Node> head;    
 
-  bool is_p1;
-  float bb;
-  float sb;
-  std::vector<hand_pairs> p1_range;
-  std::vector<hand_pairs> p2_range;
-  int num_dealt;
-  Deck deck;
-
-  std::pair<Card,Card> hand;
-    std::vector<Card*> dealt_cards; //cards that have to be included
-  //std::vector<Card*> community;
-  std::vector<std::pair<hand_pairs,hand_pairs>> matchups;
-  std::vector<Head> head;
-
-  std::vector<std::vector<Card*>> community;
-  //std::map<std::string, int> rankings;
-  
-  //true if p1 wins at showdown false if not
-  std::vector<bool> winners;
-  
-
-  //***NOTE****:
-  // also initializes the machups vector
-  //so you won't actually have to save the ranges they 
-  //will be in the head node 
-  //or you can save the 
-  std::vector<Head> init_head(bool is_p1, Node::Street street, float last_bet, float potsize,
-                 std::pair<float,float> stacks, Node::Action last_act,
-                 int num_bets, float bb,std::vector<hand_pairs> p1_range,
-                 std::vector<hand_pairs> p2_range, std::pair<float,float> player_bets);
-
-  void init_cards(std::vector<Card*> &cards);
-  void make_community_cards();
-  void cfrm();
-
+    bool are_cards_unique(hand_pair &one, hand_pair &two);
+    bool are_cards_unique(card_pairs &one, card_pairs &two);
+    void make_matchups();
+    void make_head();
+    void make_Nodes();
 };
-
-
-#endif 
+#endif

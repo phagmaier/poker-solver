@@ -1,3 +1,4 @@
+
 #include "Deck.h"
 
 std::map<char,int> Deck::suit_dic = {{'c',0},{'d',13},{'h',26},{'s',39}};

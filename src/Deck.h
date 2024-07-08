@@ -1,12 +1,3 @@
-/*
-* something super fucky is going up with 
-* old constructor idk why it's not working 
-* i suspect that it has something to do with
-* the fact that you aren't setting the cards to NULL ptrs 
-* but honesty i have no idea idk how you even could it's 
-* so fucking strange
-*
-*/ 
 #ifndef DEALER_H 
 #define DEALER_H
 #include <vector>
@@ -40,12 +31,12 @@ class Deck{
       og_deck[suit_dic[suit]+val-2]->card_dealt(); 
     }
 
-    inline Card* deal_specfic(int val, char suit){
+    inline Card* deal_specific(int val, char suit){
       og_deck[suit_dic[suit]+val-2]->card_dealt(); 
       return og_deck[suit_dic[suit]+val-2]; 
     }
 
-    inline Card* deal_specfic(std::pair<int,char>card){
+    inline Card* deal_specific(std::pair<int,char>card){
       og_deck[suit_dic[card.second]+card.first-2]->card_dealt(); 
       return og_deck[suit_dic[card.second]+card.first-2]; 
     }

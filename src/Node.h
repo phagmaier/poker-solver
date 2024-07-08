@@ -1,86 +1,52 @@
-/*
- *
- *
- *
- *
- * GOING TO have TO DO ONE CARD AT A TIME
- * THIS WILL PROBABLY REQUIRE YOU CONSTANTLY 
- * PASSING AN INDEX WHEN YOU GET THERE THIS 
- * WILL MAKE IT EASIER TO THREAD THOUGH AND KEEP 
-
- * TRACK OF ALL THE PROGRAMS SO EACH NODE WILL 
- * BE THE STRAT FOR ONE CARD AND ONE CARD ONLY 
- * FOR BOTH PLAYER ONE AND PLAYER 2
-*/
-
 #ifndef NODE_H
 #define NODE_H 
+
 #include <vector>
-#include <utility>
-#include "Card.h"
 #include <string>
+#include <map>
+#include "Card.h"
 
+enum Street{
+  DONE = -1,
+  FLOP,
+  TURN,
+  RIVER
+};
 
-//using doubleVec = std::vector<std::vector<double>>;
-//using pairVec = std::vector<std::pair<double, double>>;
+enum Action{
+  FOLD,
+  CHECK,
+  CALL,
+  BET,
+  ALLIN
+};
+
   
-//PREVIOUS ACTIONS:
-//K = CHECK 
-//B = BET 
-//A = ALL_IN
-//F = FOLD
-//C = CALL
+
 class Node{
   public:
-    
-    enum Action{
-      CHECK,
-      BET,
-      CALL,
-      FOLD,
-      ALLIN};
-    enum Street{
-      DONE = -1,
-      FLOP,
-      TURN,
-      RIVER};
-
-    //DON'T WANT CONSTANT RERAISING SO NUM BETS IS 
-    //HOW MANY BETS WE'VE HAD 
-    
-    //
-    //You actually need both players stack sizes
-    Node(bool p1,Street street, float prev_bet, float potsize, 
-         std::pair<float,float> stacks, Action prev_act, 
-         int num_bets, Node *parent, std::pair<float,float> my_bets);
+    static std::map<Street, std::string> street_dic;
+    static std::map<Action, std::string> action_dic;
+    //for when head makes node 
+    // won't know the number of children
     Node();
+    Node(bool p1, Street street, Action action, std::map<std::pair<Card*, Card*>,Node*> children,
+         std::map<std::pair<Card*, Card*>,Node*> strats, std::map<std::pair<Card*, Card*>,Node*> strat_sum);
+    inline void set_children(std::map<std::pair<Card*, Card*>,Node*> childs){children = childs;}
     
-    //USE THIS ONE FOR THE FIRST NODE SINCE YOU HAVE NO PARENT 
-    // you will have to determine how many nodes you will make before in order 
-    // to make this 
-    Node(bool p1, Street street, float prev_bet, float potsize, 
-        std::pair<float,float> stacks,
-        Action prev_act, int num_bets,Node *parent, float strat, std::pair<float,float>my_bets);
-    static float blind;
-    static std::vector<float> default_bet_sizes;
-    std::vector<Node> children;
-    inline void setblind(float b){Node::blind = b;}
-    inline void set_strat(float s){strat=s;}
-    inline void update_strat_sum(float s){strat_sum+=s;}
-    inline float get_final_strat(int iterations){return strat_sum/iterations;}
-    friend Street operator+(Street s, int);
+    bool p1;
+    Street street;
+    Action action;
     
-  //private:
-    float potsize; //as a representation of bb's
-    float stack; //number of bb's can have a fraction 
-    float player_bets;
-    float strat;
-    float ev;
-    float actual;
-    Node *parent;
-    float strat_sum;
-    float regret;
-    Node::Street get_next_street(Action prev, Action curr, Street street);
-}; 
+    //arr of arr of nodes representing children 
+    // need 2d becuase need it for Nodes that come 
+    // after for each card need to be pointer 
+    // cause AD will need child node for AC and so will 
+    // other cards in range 
+    std::map<std::pair<Card*, Card*>,Node*> children;
 
-#endif 
+    std::map<std::pair<Card*, Card*>,Node*> strats;
+    std::map<std::pair<Card*, Card*>,Node*> strat_sum;
+};
+
+#endif

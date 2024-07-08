@@ -30,6 +30,10 @@ class Card{
     inline void reset(){dealt=false;}
     inline std::string *get_string(){return &card_string;}
 
+  inline bool operator==(const Card& other) const{return (this->val == other.val && this->suit == other.suit) ? true : false;}
+  inline bool operator>(const Card& other) const{return (this->val*1000 + (int)this->suit > other.val*1000 + (int)other.suit) ? true : false;}
+  inline bool operator<(const Card& other) const{return (this->val*1000 + (int)this->suit < other.val*1000 + (int)other.suit) ? true : false;}
+
   private:
     int val;
     char suit;
