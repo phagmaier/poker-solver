@@ -15,14 +15,35 @@ Node::Node(){
   p1 = false;
   street = DONE;
   action = FOLD;
+  potsize = 0;
+  bet = 0;
+  stack = 0;
   children = {};
   strats = {};
   strat_sum = {};
 }
 
 
-Node::Node(bool p1, Street street, Action action, std::map<std::pair<Card*, Card*>,Node*> children, 
-           std::map<std::pair<Card*, Card*>,Node*> strats, std::map<std::pair<Card*, Card*>,Node*>strat_sum) : 
-  p1{p1}, street{street}, action{action}, children{children}, strats{strats},strat_sum{strat_sum} {}
+Node::Node(bool p1, Street street, Action action, std::vector<Node*> children, 
+           std::map<std::pair<Card*, Card*>,float> strats, 
+           float potsize, float bet, float stack, int num_bets) : 
+  p1{p1}, street{street}, action{action}, children{children}, strats{strats},
+  potsize{potsize}, bet{bet}, stack{stack}{}
 
 
+Street& operator++(Street& s) {
+    switch (s) {
+        case DONE:
+            throw std::runtime_error("Cannot increment DONE.");
+        case FLOP:
+            s = TURN;
+            break;
+        case TURN:
+            s = RIVER;
+            break;
+        case RIVER:
+            s = DONE;
+            break;
+    }
+    return s;
+}

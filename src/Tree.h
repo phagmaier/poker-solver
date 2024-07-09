@@ -8,26 +8,35 @@
 #include <utility>
 
 using hand_pair = std::pair<std::pair<int, char>, std::pair<int, char>>;
-using card_pairs = std::pair<std::pair<Card*,Card*>, std::pair<Card*,Card*>>;
+using card_pairs = std::pair<Card*, Card*>;
 class Tree{
   public:
-    Tree(hand_pair hand,std::vector<std::pair<int,char>> dealt,std::vector<hand_pair> p1_range, 
-         std::vector<hand_pair> p2_range, std::pair<float,float> stacks);
+    Tree(hand_pair hand,float bb,float pot,std::vector<std::pair<int,char>> dealt,std::vector<hand_pair> range1, 
+         std::vector<hand_pair> range2, std::pair<float,float> stacks);
     static std::vector<float> bet_sizes;
     hand_pair hand;
+    float bb;
+    float pot;
     std::vector<std::pair<int,char>> dealt;
-    std::vector<hand_pair> p1_range;
-    std::vector<hand_pair> p2_range;
+    //need to change this to be cards
+    //you pass it as a <handpairs>
+    // but ultimatley it's converted into cards
+    std::vector<std::pair<Card*, Card*>> p1_range;
+    std::vector<std::pair<Card*,Card*>> p2_range;
     std::pair<float,float> stacks;
     Deck deck; 
     std::map<std::pair<Card*, Card*>, std::vector<std::pair<Card*,Card*>>> matchups_p1;
     std::map<std::pair<Card*,Card*>, std::vector<std::pair<Card*,Card*>>> matchups_p2; //gives index of hands going against one another
-    std::map<std::pair<Card*,Card*>,Node> head;    
+    std::vector<Node> heads;    
 
     bool are_cards_unique(hand_pair &one, hand_pair &two);
     bool are_cards_unique(card_pairs &one, card_pairs &two);
-    void make_matchups();
+    void make_matchups(std::vector<hand_pair> range1, std::vector<hand_pair> range2);
     void make_head();
-    void make_Nodes();
+  std::vector<Node*> make_children(bool player, Street prev_street,
+                                   Action prev_action,std::map<card_pairs,float> strats1,
+                                    std::map<card_pairs,float> strats2,float potsize,
+                                    float prev_bet,std::pair<float,float>prev_stack, int num_bets);
+  Street get_next_street(Action act, Action prev_act, Street street);
 };
 #endif
