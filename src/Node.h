@@ -35,7 +35,6 @@ class Node{
     // won't know the number of children
     Node();
     Node(bool p1, Street street, Action action, std::vector<Node*> children,
-         std::map<std::pair<Card*, Card*>,float> strats, 
          float potsize, float bet, float stack,int num_bets);
 
     inline void set_children(std::vector<Node*> childs){children = childs;}
@@ -56,6 +55,14 @@ class Node{
 
     std::map<std::pair<Card*, Card*>,float> strats;
     std::map<std::pair<Card*, Card*>,float> strat_sum;
+    //because cards that are conflicting with random board 
+    //runnout are not included we need to count each time they 
+    //are updated so at the end we can accuratley divide by 
+    //the number of times it was updated
+    std::map<std::pair<Card*, Card*>,int> count; 
+    //will have to sum all ev up and divide by total number
+    std::map<std::pair<Card*, Card*>,std::vector<float>> ev; 
+    inline void set_strats(std::map<std::pair<Card*, Card*>,float> strat){strats=strat;}    
 };
 
 #endif

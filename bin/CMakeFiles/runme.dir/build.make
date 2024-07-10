@@ -97,24 +97,10 @@ CMakeFiles/runme.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/runme.dir/src/main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/phagmaier/Desktop/Code/Solver/src/main.cpp -o CMakeFiles/runme.dir/src/main.cpp.s
 
-CMakeFiles/runme.dir/src/Head.cpp.o: CMakeFiles/runme.dir/flags.make
-CMakeFiles/runme.dir/src/Head.cpp.o: /home/phagmaier/Desktop/Code/Solver/src/Head.cpp
-CMakeFiles/runme.dir/src/Head.cpp.o: CMakeFiles/runme.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/phagmaier/Desktop/Code/Solver/bin/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/runme.dir/src/Head.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/runme.dir/src/Head.cpp.o -MF CMakeFiles/runme.dir/src/Head.cpp.o.d -o CMakeFiles/runme.dir/src/Head.cpp.o -c /home/phagmaier/Desktop/Code/Solver/src/Head.cpp
-
-CMakeFiles/runme.dir/src/Head.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/runme.dir/src/Head.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/phagmaier/Desktop/Code/Solver/src/Head.cpp > CMakeFiles/runme.dir/src/Head.cpp.i
-
-CMakeFiles/runme.dir/src/Head.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/runme.dir/src/Head.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/phagmaier/Desktop/Code/Solver/src/Head.cpp -o CMakeFiles/runme.dir/src/Head.cpp.s
-
 CMakeFiles/runme.dir/src/helperfunctions.cpp.o: CMakeFiles/runme.dir/flags.make
 CMakeFiles/runme.dir/src/helperfunctions.cpp.o: /home/phagmaier/Desktop/Code/Solver/src/helperfunctions.cpp
 CMakeFiles/runme.dir/src/helperfunctions.cpp.o: CMakeFiles/runme.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/phagmaier/Desktop/Code/Solver/bin/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/runme.dir/src/helperfunctions.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/phagmaier/Desktop/Code/Solver/bin/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/runme.dir/src/helperfunctions.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/runme.dir/src/helperfunctions.cpp.o -MF CMakeFiles/runme.dir/src/helperfunctions.cpp.o.d -o CMakeFiles/runme.dir/src/helperfunctions.cpp.o -c /home/phagmaier/Desktop/Code/Solver/src/helperfunctions.cpp
 
 CMakeFiles/runme.dir/src/helperfunctions.cpp.i: cmake_force
@@ -128,7 +114,7 @@ CMakeFiles/runme.dir/src/helperfunctions.cpp.s: cmake_force
 CMakeFiles/runme.dir/src/Deck.cpp.o: CMakeFiles/runme.dir/flags.make
 CMakeFiles/runme.dir/src/Deck.cpp.o: /home/phagmaier/Desktop/Code/Solver/src/Deck.cpp
 CMakeFiles/runme.dir/src/Deck.cpp.o: CMakeFiles/runme.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/phagmaier/Desktop/Code/Solver/bin/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/runme.dir/src/Deck.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/phagmaier/Desktop/Code/Solver/bin/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/runme.dir/src/Deck.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/runme.dir/src/Deck.cpp.o -MF CMakeFiles/runme.dir/src/Deck.cpp.o.d -o CMakeFiles/runme.dir/src/Deck.cpp.o -c /home/phagmaier/Desktop/Code/Solver/src/Deck.cpp
 
 CMakeFiles/runme.dir/src/Deck.cpp.i: cmake_force
@@ -142,7 +128,7 @@ CMakeFiles/runme.dir/src/Deck.cpp.s: cmake_force
 CMakeFiles/runme.dir/src/Node.cpp.o: CMakeFiles/runme.dir/flags.make
 CMakeFiles/runme.dir/src/Node.cpp.o: /home/phagmaier/Desktop/Code/Solver/src/Node.cpp
 CMakeFiles/runme.dir/src/Node.cpp.o: CMakeFiles/runme.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/phagmaier/Desktop/Code/Solver/bin/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/runme.dir/src/Node.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/phagmaier/Desktop/Code/Solver/bin/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/runme.dir/src/Node.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/runme.dir/src/Node.cpp.o -MF CMakeFiles/runme.dir/src/Node.cpp.o.d -o CMakeFiles/runme.dir/src/Node.cpp.o -c /home/phagmaier/Desktop/Code/Solver/src/Node.cpp
 
 CMakeFiles/runme.dir/src/Node.cpp.i: cmake_force
@@ -156,7 +142,7 @@ CMakeFiles/runme.dir/src/Node.cpp.s: cmake_force
 CMakeFiles/runme.dir/src/Tree.cpp.o: CMakeFiles/runme.dir/flags.make
 CMakeFiles/runme.dir/src/Tree.cpp.o: /home/phagmaier/Desktop/Code/Solver/src/Tree.cpp
 CMakeFiles/runme.dir/src/Tree.cpp.o: CMakeFiles/runme.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/phagmaier/Desktop/Code/Solver/bin/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/runme.dir/src/Tree.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/phagmaier/Desktop/Code/Solver/bin/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/runme.dir/src/Tree.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/runme.dir/src/Tree.cpp.o -MF CMakeFiles/runme.dir/src/Tree.cpp.o.d -o CMakeFiles/runme.dir/src/Tree.cpp.o -c /home/phagmaier/Desktop/Code/Solver/src/Tree.cpp
 
 CMakeFiles/runme.dir/src/Tree.cpp.i: cmake_force
@@ -171,7 +157,6 @@ CMakeFiles/runme.dir/src/Tree.cpp.s: cmake_force
 runme_OBJECTS = \
 "CMakeFiles/runme.dir/src/Card.cpp.o" \
 "CMakeFiles/runme.dir/src/main.cpp.o" \
-"CMakeFiles/runme.dir/src/Head.cpp.o" \
 "CMakeFiles/runme.dir/src/helperfunctions.cpp.o" \
 "CMakeFiles/runme.dir/src/Deck.cpp.o" \
 "CMakeFiles/runme.dir/src/Node.cpp.o" \
@@ -182,14 +167,13 @@ runme_EXTERNAL_OBJECTS =
 
 runme: CMakeFiles/runme.dir/src/Card.cpp.o
 runme: CMakeFiles/runme.dir/src/main.cpp.o
-runme: CMakeFiles/runme.dir/src/Head.cpp.o
 runme: CMakeFiles/runme.dir/src/helperfunctions.cpp.o
 runme: CMakeFiles/runme.dir/src/Deck.cpp.o
 runme: CMakeFiles/runme.dir/src/Node.cpp.o
 runme: CMakeFiles/runme.dir/src/Tree.cpp.o
 runme: CMakeFiles/runme.dir/build.make
 runme: CMakeFiles/runme.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/phagmaier/Desktop/Code/Solver/bin/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable runme"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/phagmaier/Desktop/Code/Solver/bin/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable runme"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/runme.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

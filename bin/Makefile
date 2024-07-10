@@ -177,30 +177,6 @@ src/Deck.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/runme.dir/build.make CMakeFiles/runme.dir/src/Deck.cpp.s
 .PHONY : src/Deck.cpp.s
 
-src/Head.o: src/Head.cpp.o
-.PHONY : src/Head.o
-
-# target to build an object file
-src/Head.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/runme.dir/build.make CMakeFiles/runme.dir/src/Head.cpp.o
-.PHONY : src/Head.cpp.o
-
-src/Head.i: src/Head.cpp.i
-.PHONY : src/Head.i
-
-# target to preprocess a source file
-src/Head.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/runme.dir/build.make CMakeFiles/runme.dir/src/Head.cpp.i
-.PHONY : src/Head.cpp.i
-
-src/Head.s: src/Head.cpp.s
-.PHONY : src/Head.s
-
-# target to generate assembly for a file
-src/Head.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/runme.dir/build.make CMakeFiles/runme.dir/src/Head.cpp.s
-.PHONY : src/Head.cpp.s
-
 src/Node.o: src/Node.cpp.o
 .PHONY : src/Node.o
 
@@ -312,9 +288,6 @@ help:
 	@echo "... src/Deck.o"
 	@echo "... src/Deck.i"
 	@echo "... src/Deck.s"
-	@echo "... src/Head.o"
-	@echo "... src/Head.i"
-	@echo "... src/Head.s"
 	@echo "... src/Node.o"
 	@echo "... src/Node.i"
 	@echo "... src/Node.s"

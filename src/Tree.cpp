@@ -1,13 +1,20 @@
 #include "Tree.h"
 
-std::vector<float> bet_sizes = {.25, .5,.75,.85,1,1.5,2};
+std::vector<float> Tree::bet_sizes = {.25, .5,.75,.85,1,1.5,2};
 
-Tree::Tree(hand_pair hand,float bb, float pot,std::vector<std::pair<int,char>> dealt,std::vector<hand_pair> range1, 
+Tree::Tree(hand_pair hand,float bb, float pot,std::vector<std::pair<int,char>> dealt_cards,std::vector<hand_pair> range1, 
            std::vector<hand_pair> range2, std::pair<float,float> stacks) : 
-  hand{hand}, bb{bb},pot{pot},dealt{dealt}, deck{Deck()}, stacks{stacks}
+  hand{hand}, bb{bb},pot{pot}, deck{Deck()}, stacks{stacks}
 {
+  get_dealt(dealt_cards);
   make_matchups(range1,range2);
   make_head();
+}
+
+void Tree::get_dealt(std::vector<std::pair<int,char>> &cards){
+  for (std::pair<int,char> &c : cards){
+    dealt.push_back(deck.deal_specific(c));
+  }
 }
 
 
@@ -36,26 +43,50 @@ bool Tree::are_cards_unique(card_pairs &one, card_pairs &two){
   }
   return true;
 }
+bool Tree::are_cards_unique(card_pairs &one, std::vector<Card*>&comm){
+  for (Card *c : comm){
+    if (c == one.first || c == one.second){
+      return false;
+    }
+  }
+  return true;
+}
+
+bool Tree::are_cards_unique(card_pairs &one,card_pairs &two, std::vector<Card*>&comm){
+  for (Card *c : comm){
+    if (c == one.first || c == one.second || c == two.first || c == two.second){
+      return false;
+    }
+  }
+  return true;
+
+}
+
 
 void Tree::make_matchups(std::vector<hand_pair> range1, std::vector<hand_pair> range2){
   for (hand_pair &h2 : range2){
     std::pair<Card*,Card*> hand2 = {deck.deal_specific(h2.first),deck.deal_specific(h2.second)};
-    matchups_p2[hand2] = {};
-    p2_range.push_back(hand2);
+    if (are_cards_unique(hand2,community)){
+      matchups_p2[hand2] = {};
+      p2_range.push_back(hand2);
+    }
   }
 
   for (hand_pair &h1 : range1){
        std::vector<std::pair<Card*,Card*>> p1_vec;
     std::pair<Card*,Card*> hand1 = {deck.deal_specific(h1.first),deck.deal_specific(h1.second)};
-    p1_range.push_back(hand1);
-    for (std::pair<Card*,Card*> &h2 : p2_range){
-      if (are_cards_unique(hand1,h2)){
-        //std::pair<Card*,Card*> hand2 = {deck.deal_specific(h2.first),deck.deal_specific(h2.second)};
-        p1_vec.push_back(h2);
-        matchups_p2[h2].push_back(hand1);
+    if (are_cards_unique(hand1, community)){
+      p1_range.push_back(hand1);
+      hand1.first->print_card();
+      hand1.second->print_card();
+      for (std::pair<Card*,Card*> &h2 : p2_range){
+        if (are_cards_unique(hand1,h2)){
+          p1_vec.push_back(h2);
+          matchups_p2[h2].push_back(hand1);
       }
     }
-    matchups_p1[hand1] = p1_vec;
+      matchups_p1[hand1] = p1_vec;
+    }
   }
   
 }
@@ -87,15 +118,19 @@ void Tree::make_head(){
     }
   }
   std::map<card_pairs,float> dic1;
-  float num_cards1 = p1_range.size();
-  std::map<card_pairs,float> dic2;
-  float num_cards2 = p2_range.size();
-  
+  float denom= bets.size();
+   
   for (std::pair<Card*, Card*> &temp_hand : p1_range){
-    dic1[temp_hand] = 1.0/num_cards1;
+    dic1[temp_hand] = 1.0/denom;
   }
-  for (std::pair<Card*, Card*> &temp_hand : p2_range){
-    dic2[temp_hand] = 1.0/num_cards2;
+
+
+  std::cout << "PRINTING DIC1\n";
+  for (auto i : dic1){
+    i.first.first->print_card();
+    i.first.second->print_card();
+    std::cout << i.second << "\n";
+
   }
   
   int count = 0;
@@ -103,12 +138,23 @@ void Tree::make_head(){
     float bet1 = bets[count].second;
     int num_bets = bets[count].first != CHECK ? 1 : 0;
     std::vector<Node*> child = make_children(false, FLOP,bets[count].first,
-                                             dic1,dic2,pot+bet1,bet1,
+                                             pot+bet1,bet1,
                                              {stacks.first-bet1,stacks.second},num_bets);
     heads.push_back(Node(true, FLOP, b.first,child, 
-                         dic1,pot+bet1,
+                         pot+bet1,
                          bet1,stacks.first-bet1,num_bets));
     ++count;
+  }
+  for (Node &h : heads){
+    h.set_strats(dic1);
+    float temp_size = (float)h.children.size();
+    std::map<card_pairs,float> dic2;
+    for (std::pair<Card*, Card*> &temp_hand : p2_range){
+        dic2[temp_hand] = 1.0/temp_size;
+  }
+    for (Node *n : h.children){
+      n->set_strats(dic2);
+    }
   }
 }
 
@@ -116,9 +162,7 @@ void Tree::make_head(){
 //to get the 
 //only thing you are not passing to this function is the children 
 std::vector<Node*> Tree::make_children(bool player,Street prev_street, Action prev_action,
-                                      std::map<card_pairs,float> strats1,
-                                      std::map<card_pairs,float> strats2,
-                                       float potsize, float prev_bet,
+                                      float potsize, float prev_bet,
                                        std::pair<float,float>prev_stack, int num_bets){
   
   //base case the node ahead of you is a terminal node
@@ -165,6 +209,19 @@ std::vector<Node*> Tree::make_children(bool player,Street prev_street, Action pr
     }
   }
   }
+
+    std::map<card_pairs,float> my_strats;
+    float bets_num = (float)bets.size();
+    if (player){
+     for (std::pair<Card*,Card*> &the_cards : p2_range){
+        my_strats[the_cards] = 1.0/bets_num;
+     } 
+    }
+    else{
+      for (std::pair<Card*,Card*> &the_cards : p1_range){
+        my_strats[the_cards] = 1.0/bets_num;
+     } 
+    }
   
   for (std::pair<Action,float> &data : bets){
     Action actC = data.first;
@@ -172,24 +229,42 @@ std::vector<Node*> Tree::make_children(bool player,Street prev_street, Action pr
     bool new_p = !player;
     Street thisStreet = get_next_street(actC,prev_action,prev_street);
     std::pair<float,float> new_stack;
-    std::map<card_pairs,float> my_strats;
     float myStack;
     if (player){
       new_stack = {prev_stack.first-bet_size, prev_stack.second};
-      my_strats = strats1;
       myStack = new_stack.first;
     }
     else{
       new_stack = {prev_stack.first, prev_stack.second-bet_size};
-      my_strats = strats2;
       myStack = new_stack.second;
     }
     int c_num_bets = actC == BET ? num_bets +1 : num_bets;
-    std::vector<Node*> my_child = make_children(new_p,thisStreet,actC,strats1,strats2,potsize+bet_size,bet_size,new_stack,c_num_bets);
-    new_children.push_back(new Node(player,thisStreet,actC,my_child,my_strats,potsize+bet_size,bet_size,myStack,c_num_bets));
+    std::vector<Node*> my_child = make_children(new_p,thisStreet,actC,potsize+bet_size,bet_size,new_stack,c_num_bets);
+    Node* temp_node = new Node(player,thisStreet,actC,my_child,potsize+bet_size,bet_size,myStack,c_num_bets);
+    temp_node->set_strats(my_strats);
+    new_children.push_back(temp_node);
   }
   return new_children;
 }
 
+//now when you are getting CFRM
+//TO CHECK IF YOU CAN EVALUATE A 
+//CERTAIN COMBO just check if any of the cards are
+//dealt
+void Tree::deal_community(){
+  deck.reset_deck();
+  for (Card *c : dealt){
+    c->card_dealt();
+    community.push_back(c);
+  }
+  int dealt_size = dealt.size(); 
+  for (;dealt_size<5;++dealt_size){
+    community.push_back(deck.deal());
+  }
+}
+
+void Tree::CFRM(){
+
+}
 
 

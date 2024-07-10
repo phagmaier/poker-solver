@@ -3,8 +3,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/runme.dir/src/Card.cpp.o.d"
   "CMakeFiles/runme.dir/src/Deck.cpp.o"
   "CMakeFiles/runme.dir/src/Deck.cpp.o.d"
-  "CMakeFiles/runme.dir/src/Head.cpp.o"
-  "CMakeFiles/runme.dir/src/Head.cpp.o.d"
   "CMakeFiles/runme.dir/src/Node.cpp.o"
   "CMakeFiles/runme.dir/src/Node.cpp.o.d"
   "CMakeFiles/runme.dir/src/Tree.cpp.o"

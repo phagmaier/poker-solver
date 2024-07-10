@@ -11,13 +11,13 @@ using hand_pair = std::pair<std::pair<int, char>, std::pair<int, char>>;
 using card_pairs = std::pair<Card*, Card*>;
 class Tree{
   public:
-    Tree(hand_pair hand,float bb,float pot,std::vector<std::pair<int,char>> dealt,std::vector<hand_pair> range1, 
+    Tree(hand_pair hand,float bb,float pot,std::vector<std::pair<int,char>> dealt_cards,std::vector<hand_pair> range1, 
          std::vector<hand_pair> range2, std::pair<float,float> stacks);
     static std::vector<float> bet_sizes;
     hand_pair hand;
     float bb;
     float pot;
-    std::vector<std::pair<int,char>> dealt;
+    std::vector<Card*> dealt;
     //need to change this to be cards
     //you pass it as a <handpairs>
     // but ultimatley it's converted into cards
@@ -25,18 +25,28 @@ class Tree{
     std::vector<std::pair<Card*,Card*>> p2_range;
     std::pair<float,float> stacks;
     Deck deck; 
+
+    void get_dealt(std::vector<std::pair<int,char>> &cards);
     std::map<std::pair<Card*, Card*>, std::vector<std::pair<Card*,Card*>>> matchups_p1;
     std::map<std::pair<Card*,Card*>, std::vector<std::pair<Card*,Card*>>> matchups_p2; //gives index of hands going against one another
-    std::vector<Node> heads;    
+    std::vector<Node> heads;
+    std::vector<Card*> community;
 
     bool are_cards_unique(hand_pair &one, hand_pair &two);
     bool are_cards_unique(card_pairs &one, card_pairs &two);
+    bool are_cards_unique(card_pairs &one, std::vector<Card*>&comm);
+    bool are_cards_unique(card_pairs &one,card_pairs &two, std::vector<Card*>&comm);
     void make_matchups(std::vector<hand_pair> range1, std::vector<hand_pair> range2);
     void make_head();
   std::vector<Node*> make_children(bool player, Street prev_street,
-                                   Action prev_action,std::map<card_pairs,float> strats1,
-                                    std::map<card_pairs,float> strats2,float potsize,
+                                   Action prev_action,float potsize,
                                     float prev_bet,std::pair<float,float>prev_stack, int num_bets);
   Street get_next_street(Action act, Action prev_act, Street street);
+
+  void deal_community();
+
+  void CFRM();
+  
+
 };
 #endif

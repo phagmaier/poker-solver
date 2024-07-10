@@ -5,7 +5,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(SOURCES
 src/Card.cpp
 src/main.cpp
-src/Head.cpp
 src/helperfunctions.cpp
 src/Deck.cpp
 src/Node.cpp

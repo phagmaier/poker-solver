@@ -25,9 +25,8 @@ Node::Node(){
 
 
 Node::Node(bool p1, Street street, Action action, std::vector<Node*> children, 
-           std::map<std::pair<Card*, Card*>,float> strats, 
            float potsize, float bet, float stack, int num_bets) : 
-  p1{p1}, street{street}, action{action}, children{children}, strats{strats},
+  p1{p1}, street{street}, action{action}, children{children},
   potsize{potsize}, bet{bet}, stack{stack}{}
 
 
