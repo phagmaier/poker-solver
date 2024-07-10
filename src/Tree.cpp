@@ -77,8 +77,6 @@ void Tree::make_matchups(std::vector<hand_pair> range1, std::vector<hand_pair> r
     std::pair<Card*,Card*> hand1 = {deck.deal_specific(h1.first),deck.deal_specific(h1.second)};
     if (are_cards_unique(hand1, community)){
       p1_range.push_back(hand1);
-      hand1.first->print_card();
-      hand1.second->print_card();
       for (std::pair<Card*,Card*> &h2 : p2_range){
         if (are_cards_unique(hand1,h2)){
           p1_vec.push_back(h2);
@@ -123,16 +121,7 @@ void Tree::make_head(){
   for (std::pair<Card*, Card*> &temp_hand : p1_range){
     dic1[temp_hand] = 1.0/denom;
   }
-
-
-  std::cout << "PRINTING DIC1\n";
-  for (auto i : dic1){
-    i.first.first->print_card();
-    i.first.second->print_card();
-    std::cout << i.second << "\n";
-
-  }
-  
+    
   int count = 0;
   for (std::pair<Action,float> &b : bets){
     float bet1 = bets[count].second;

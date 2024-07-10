@@ -115,9 +115,9 @@ int main(){
       //std::cout << (*dic)["Ac-Ad-Ah-As-Ks"] << "\n";
       //count(tree.heads); 
       std::cout << "hello world\n";      
-      dumb(tree.heads);
-      dumb(tree.heads[0].children);
-      dumb(tree.heads[0].children[0]->children);
+      //dumb(tree.heads);
+      //dumb(tree.heads[0].children);
+      //dumb(tree.heads[0].children[0]->children);
       
       
       return 0;
