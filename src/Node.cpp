@@ -50,6 +50,7 @@ Street& operator++(Street& s) {
 void Node::get_regret(std::vector<Node*> &nodes){
   std::map<std::pair<Card*,Card*>,float> totals;
   for (Node *n : nodes){
+    n->regrets.clear();
     for (auto &i : n->ev){
       for (auto &x : i.second){
         n->regrets[i.first] += n->actual[i.first][x.first] - x.second;
@@ -70,6 +71,7 @@ void Node::get_regret(std::vector<Node*> &nodes){
 void Node::get_regret(std::vector<Node> &nodes){
   std::map<std::pair<Card*,Card*>,float> totals;
   for (Node &n : nodes){
+    n.regrets.clear();
     for (auto &i : n.ev){
       for (auto &x : i.second){
         n.regrets[i.first] += n.actual[i.first][x.first] - x.second;
@@ -88,36 +90,6 @@ void Node::get_regret(std::vector<Node> &nodes){
   }
 }
 
-
-//this also needs to be changed 
-//ranges here will have to only include valid cards
-//meaning cards that don't conflict with monte carlo runout
-void Node::get_ev(std::vector<std::pair<Card*,Card*>> &range1,std::vector<std::pair<Card*,Card*>> &range2,
-                                          std::map<std::pair<Card*,Card*>, std::map<std::pair<Card*,Card*>,bool>> &p1_win,
-                                          std::map<std::pair<Card*,Card*>, std::map<std::pair<Card*,Card*>,bool>> &p2_win,
-                                          std::map<std::pair<Card*,Card*>,float> prct1, std::map<std::pair<Card*,Card*>,float> prct2){
-  if (!children.size()){
-    get_leaf_ev(range1,range2,p1_win,p2_win,prct1,prct2);
-  }
-  else{
-    if (p1){
-      for (std::pair<Card*,Card*> &h : range1){
-       prct1[h] *=  strats[h]; 
-      }
-    }
-    else{
-      for (std::pair<Card*,Card*> &h : range2){
-       prct2[h] *=  strats[h]; 
-      }
-    }
-    for (Node *n : children){
-      n->get_ev(range1, range2,p1_win,p2_win,prct1,prct2);
-    }
-
-  }
-    get_regret(children); 
-}
-      
 void Node::get_leaf_ev(std::vector<std::pair<Card*,Card*>> &range1,std::vector<std::pair<Card*,Card*>> &range2,
                                           std::map<std::pair<Card*,Card*>, std::map<std::pair<Card*,Card*>,bool>> &p1_win,
                                           std::map<std::pair<Card*,Card*>, std::map<std::pair<Card*,Card*>,bool>> &p2_win,
@@ -169,7 +141,69 @@ void Node::get_leaf_ev(std::vector<std::pair<Card*,Card*>> &range1,std::vector<s
       }
 
     }
-
 }
+
+
+
+//ranges here will have to only include valid cards
+//meaning cards that don't conflict with monte carlo runout
+//
+//To eliminate if statments it would be nice if 
+//instead of doing ranges 1 ranges 2 you just 
+//put myRange, oppRange and just passed the correct range accordingly 
+void Node::get_ev(std::vector<std::pair<Card*,Card*>> &range1,std::vector<std::pair<Card*,Card*>> &range2,
+                                          std::map<std::pair<Card*,Card*>, std::map<std::pair<Card*,Card*>,bool>> &p1_win,
+                                          std::map<std::pair<Card*,Card*>, std::map<std::pair<Card*,Card*>,bool>> &p2_win,
+                                          std::map<std::pair<Card*,Card*>,float> prct1, std::map<std::pair<Card*,Card*>,float> prct2){
+  if (!children.size()){
+    if (p1){
+      for (auto &i : prct1){
+        i.second *= strats[i.first];
+      }
+    }
+    else{
+      for (auto &i : prct2){
+        i.second *= strats[i.first];
+      }
+    }
+    get_leaf_ev(range1,range2,p1_win,p2_win,prct1,prct2);
+  }
+  else{
+    if (p1){
+      for (std::pair<Card*,Card*> &h : range1){
+       prct1[h] *=  strats[h]; 
+      }
+    }
+    else{
+      for (std::pair<Card*,Card*> &h : range2){
+       prct2[h] *=  strats[h]; 
+      }
+    }
+    ev.clear();
+    for (Node *n : children){
+      n->get_ev(range1, range2,p1_win,p2_win,prct1,prct2);
+      if (p1){
+        for (std::pair<Card*,Card*> &i : range1){
+          for (std::pair<Card*,Card*> &x : range2){
+            ev[i][x] -= n->ev[x][i];
+            actual[i][x] -=n->actual[x][i] * strats[i];
+            regrets[i] += -n->ev[x][i] - n->actual[x][i];
+          }
+        }
+      }
+      else{
+        for (std::pair<Card*,Card*> &i : range2){
+          for (std::pair<Card*,Card*> &x : range1){
+            ev[i][x] -= n->ev[x][i] * strats[i];
+            actual[i][x] -=n->actual[x][i];
+          }
+        }
+      }
+    }
+    
+  }
+    get_regret(children); 
+}
+      
 
 
