@@ -8,6 +8,7 @@
 #include <map>
 #include "Card.h"
 #include <stdexcept>
+using doubleDic = std::map<std::pair<Card*,Card*>,std::map<std::pair<Card*,Card*>,float>>; 
 
 enum Street{
   DONE = -1,
@@ -31,6 +32,9 @@ class Node{
   public:
     static std::map<Street, std::string> street_dic;
     static std::map<Action, std::string> action_dic;
+    static std::map<std::pair<Card*,Card*>,float> num_iterations_1;
+    static std::map<std::pair<Card*,Card*>,float> num_iterations_2;
+
     //for when head makes node 
     // won't know the number of children
     Node();
@@ -59,10 +63,25 @@ class Node{
     //runnout are not included we need to count each time they 
     //are updated so at the end we can accuratley divide by 
     //the number of times it was updated
-    std::map<std::pair<Card*, Card*>,int> count; 
     //will have to sum all ev up and divide by total number
-    std::map<std::pair<Card*, Card*>,std::vector<float>> ev; 
+    doubleDic ev; 
+    doubleDic actual; 
+    std::map<std::pair<Card*,Card*>, float> regrets;
     inline void set_strats(std::map<std::pair<Card*, Card*>,float> strat){strats=strat;}    
-};
+    
 
+    void get_ev(std::vector<std::pair<Card*,Card*>> &range1,std::vector<std::pair<Card*,Card*>> &range2,
+                                          std::map<std::pair<Card*,Card*>, std::map<std::pair<Card*,Card*>,bool>> &p1_win,
+                                          std::map<std::pair<Card*,Card*>, std::map<std::pair<Card*,Card*>,bool>> &p2_win,
+                                          std::map<std::pair<Card*,Card*>,float> prct1, std::map<std::pair<Card*,Card*>,float> prct2);
+
+    void get_leaf_ev(std::vector<std::pair<Card*,Card*>> &range1,std::vector<std::pair<Card*,Card*>> &range2,
+                                          std::map<std::pair<Card*,Card*>, std::map<std::pair<Card*,Card*>,bool>> &p1_win,
+                                          std::map<std::pair<Card*,Card*>, std::map<std::pair<Card*,Card*>,bool>> &p2_win,
+                                          std::map<std::pair<Card*,Card*>,float> prct1, std::map<std::pair<Card*,Card*>,float> prct2);
+
+    void get_regret(std::vector<Node*> &nodes);
+    void get_regret(std::vector<Node> &nodes);
+
+};
 #endif

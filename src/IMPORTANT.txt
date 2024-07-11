@@ -1,12 +1,8 @@
-WHEN YOU MAKE HEAD YOU ARE SETTING THE INTIAL STRAT 
-TO BE THE number of cards but it should actually be the number of
-bets you can make 
+WILL HAVE TO ADD A MAP OF STD::PAIR<CARD*,CARD*>,FLOAT
+TO SHOW HOW MANY TIMES A CERTAIN CARD HAS BEEN RUN THROUGH 
+MONTE CARLO IN ORDER TO PROPERLY GET THE CORRECT 
+AVERAGE
 
-SAME IS TRUE FOR THE CHILDREN 
-so you shouldn't actually pass the strat dics you need to make
-you own
-
-so what you are doing is passing the strat for the current 
-node making strat for children nodes
-
-so you do need to pass one strat
+CAN JUST HAVE THIS WHAT IS ESSENTIALLY A DIC 
+COUNTER IN THE TREE FUNCTION 
+CAN HAVE ONE FOR RANGE 2 AND RANGE 1
