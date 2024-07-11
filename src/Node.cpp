@@ -64,6 +64,7 @@ void Node::get_regret(std::vector<Node*> &nodes){
   for (Node *n : nodes){
     for (auto &i : n->strats){
      i.second = n->regrets[i.first] / totals[i.first]; 
+      n->strat_sum[i.first] += i.second;
     }
   }
 }
@@ -78,7 +79,6 @@ void Node::get_regret(std::vector<Node> &nodes){
       }
       if (n.regrets[i.first] < 0){
         n.regrets[i.first] = 0;
-        
       }
       totals[i.first] += n.regrets[i.first];
     }
@@ -86,6 +86,7 @@ void Node::get_regret(std::vector<Node> &nodes){
   for (Node &n : nodes){
     for (auto &i : n.strats){
      i.second = n.regrets[i.first] / totals[i.first]; 
+      n.strat_sum[i.first] += i.second;
     }
   }
 }
@@ -180,29 +181,29 @@ void Node::get_ev(std::vector<std::pair<Card*,Card*>> &range1,std::vector<std::p
       }
     }
     ev.clear();
+    actual.clear();
     for (Node *n : children){
       n->get_ev(range1, range2,p1_win,p2_win,prct1,prct2);
       if (p1){
         for (std::pair<Card*,Card*> &i : range1){
           for (std::pair<Card*,Card*> &x : range2){
-            ev[i][x] -= n->ev[x][i];
-            actual[i][x] -=n->actual[x][i] * strats[i];
-            regrets[i] += -n->ev[x][i] - n->actual[x][i];
+            ev[i][x] -= (n->ev[x][i] * prct1[i] * prct2[x]);
+            actual[i][x] -=(n->actual[x][i] * prct2[x]);
           }
         }
       }
       else{
         for (std::pair<Card*,Card*> &i : range2){
           for (std::pair<Card*,Card*> &x : range1){
-            ev[i][x] -= n->ev[x][i] * strats[i];
-            actual[i][x] -=n->actual[x][i];
+            ev[i][x] -= (n->ev[x][i] * prct2[i] * prct1[x]);
+            actual[i][x] -= (n->actual[x][i] * prct1[x]);
           }
         }
       }
     }
-    
-  }
+        
     get_regret(children); 
+  }
 }
       
 

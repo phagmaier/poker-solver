@@ -236,6 +236,8 @@ std::vector<Node*> Tree::make_children(bool player,Street prev_street, Action pr
   return new_children;
 }
 
+
+
 //now when you are getting CFRM
 //TO CHECK IF YOU CAN EVALUATE A 
 //CERTAIN COMBO just check if any of the cards are
@@ -251,8 +253,80 @@ void Tree::deal_community(){
     community.push_back(deck.deal());
   }
 }
+bool are_cards_unique(card_pairs const &one,card_pairs &two, std::vector<Card*>&comm){
+  for (Card *c : comm){
+    if (one.first == c || two.first == c || one.second == c || two.second == c){
+      return false;
+    }
+  }
+  return true;
+}
 
+
+std::pair<matchups_dic,matchups_dic> Tree::get_monte_carlo(){
+
+  deal_community();
+  matchups_dic matchups1;
+  matchups_dic matchups2;
+  for (auto &i : matchups_p1){
+    std::vector<card_pairs> temp;
+     for (card_pairs &h : i.second){
+      if (are_cards_unique(i.first,h,community)){
+        temp.push_back(h);
+      }
+    }
+    if (temp.size()){
+      matchups1[i.first] = temp;
+    }
+  }
+  for (auto &i : matchups_p2){
+    std::vector<card_pairs> temp;
+     for (card_pairs &h : i.second){
+      if (are_cards_unique(i.first,h,community)){
+        temp.push_back(h);
+      }
+    }
+    if (temp.size()){
+      matchups2[i.first] = temp;
+    }
+  }
+
+  return {matchups1,matchups2};
+}
+
+
+void Tree::get_head_regrets(){
+  std::map<std::pair<Card*,Card*>,float> totals;
+  for (Node &n : heads){
+    n.regrets.clear();
+    for (auto &i : n.ev){
+      for (auto &x : i.second){
+        n.regrets[i.first] += n.actual[i.first][x.first] - x.second;
+      }
+      if (n.regrets[i.first] < 0){
+        n.regrets[i.first] = 0;
+      }
+      totals[i.first] += n.regrets[i.first];
+    }
+  }
+  for (Node &n : heads){
+    for (auto &i : n.strats){
+     i.second = n.regrets[i.first] / totals[i.first]; 
+     n.strat_sum[i.first] += i.second;
+    }
+  }
+}
+
+//remeber that you have to prune ranges for 
+//the monte carlo runout so do that before calling this
+//
 void Tree::CFRM(){
+  std::map<std::pair<Card*,Card*>,std::map<std::pair<Card*,Card*>,bool>> p1_win;
+  std::map<std::pair<Card*,Card*>,std::map<std::pair<Card*,Card*>,bool>> p2_win;
+  for (Node &n : heads){
+    n.get_ev(p1_range, p2_range,p1_win,p2_win,{},{});
+  }
+  get_head_regrets();
 
 }
 

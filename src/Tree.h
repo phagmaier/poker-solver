@@ -9,6 +9,7 @@
 
 using hand_pair = std::pair<std::pair<int, char>, std::pair<int, char>>;
 using card_pairs = std::pair<Card*, Card*>;
+using matchups_dic = std::map<card_pairs, std::vector<card_pairs>>;
 class Tree{
   public:
     Tree(hand_pair hand,float bb,float pot,std::vector<std::pair<int,char>> dealt_cards,std::vector<hand_pair> range1, 
@@ -32,6 +33,7 @@ class Tree{
     std::vector<Node> heads;
     std::vector<Card*> community;
 
+
     bool are_cards_unique(hand_pair &one, hand_pair &two);
     bool are_cards_unique(card_pairs &one, card_pairs &two);
     bool are_cards_unique(card_pairs &one, std::vector<Card*>&comm);
@@ -44,7 +46,10 @@ class Tree{
   Street get_next_street(Action act, Action prev_act, Street street);
 
   void deal_community();
-
+  void get_head_regrets();
+  bool are_cards_unique(card_pairs const &one,card_pairs &two, std::vector<Card*>&comm);
+  //this function calls deal_community
+  std::pair<matchups_dic,matchups_dic> get_monte_carlo(); //going to prune matchups 
   void CFRM();
   
 
