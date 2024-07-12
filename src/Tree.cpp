@@ -253,7 +253,7 @@ void Tree::deal_community(){
     community.push_back(deck.deal());
   }
 }
-bool are_cards_unique(card_pairs const &one,card_pairs &two, std::vector<Card*>&comm){
+bool Tree::are_cards_unique(card_pairs const &one,card_pairs &two, std::vector<Card*>&comm){
   for (Card *c : comm){
     if (one.first == c || two.first == c || one.second == c || two.second == c){
       return false;
@@ -330,14 +330,30 @@ std::pair<boolDic,boolDic> Tree::get_winners(matchups_dic &one){
   return {a,b};
 }
 
+
+void Tree::save_head_strat(){
+  std::map<std::pair<Card*,Card*>, float> totals;
+  for (Node &n : heads){
+    if(n.children.size()){
+      n.save_strat(n.children);
+    }
+    for (auto &i : n.strat_sum){
+      totals[i.first] += i.second;
+    }
+  }
+  for (Node &n :heads){
+    for (auto &i : n.strat_sum){
+     n.final_strats[i.first].push_back(i.second/totals[i.first]); 
+    }
+  }
+}
+
+
 //remeber that you have to prune ranges for 
 //the monte carlo runout so do that before calling this
 //
 void Tree::CFRM(){
-  std::map<std::pair<Card*,Card*>,std::map<std::pair<Card*,Card*>,bool>> p1_win;
-  std::map<std::pair<Card*,Card*>,std::map<std::pair<Card*,Card*>,bool>> p2_win;
   std::pair<matchups_dic,matchups_dic>my_matchups= get_monte_carlo();
-
   std::pair<boolDic,boolDic> winners = get_winners(my_matchups.first);
   std::map<std::pair<Card*,Card*>,float> prct1;
   std::map<std::pair<Card*,Card*>,float> prct2;

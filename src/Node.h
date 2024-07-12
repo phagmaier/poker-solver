@@ -68,6 +68,7 @@ class Node{
     doubleDic ev; 
     doubleDic actual; 
     std::map<std::pair<Card*,Card*>, float> regrets;
+    std::map<std::pair<Card*,Card*>,std::vector<float>> final_strats;
     inline void set_strats(std::map<std::pair<Card*, Card*>,float> strat){strats=strat;}    
     
 
@@ -87,6 +88,7 @@ class Node{
 
     void get_regret(std::vector<Node*> &nodes);
     void get_regret(std::vector<Node> &nodes);
-
+    void save_strat(std::vector<Node*> nodes);
+    void save_strat(std::vector<Node> nodes);
 };
 #endif

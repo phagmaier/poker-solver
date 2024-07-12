@@ -114,6 +114,7 @@ int main(){
       //std::cout << (*dic)["2c-2d-2h-2s-3c"] << "\n";
       //std::cout << (*dic)["Ac-Ad-Ah-As-Ks"] << "\n";
       //count(tree.heads); 
+      tree.CFRM();
       std::cout << "hello world\n";      
       //dumb(tree.heads);
       //dumb(tree.heads[0].children);

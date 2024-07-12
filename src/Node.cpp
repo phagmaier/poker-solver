@@ -216,6 +216,38 @@ void Node::get_ev(matchDic &range1,
     get_regret(children); 
   }
 }
-      
 
+void Node::save_strat(std::vector<Node> nodes){
+  std::map<std::pair<Card*,Card*>, float> totals;
+  for (Node &n : nodes){
+    if(n.children.size()){
+      save_strat(n.children);
+    }
+    for (auto &i : n.strat_sum){
+      totals[i.first] += i.second;
+    }
+  }
+  for (Node &n :nodes){
+    for (auto &i : n.strat_sum){
+     n.final_strats[i.first].push_back(i.second/totals[i.first]); 
+    }
+  }
+}
+
+void Node::save_strat(std::vector<Node*> nodes){
+  std::map<std::pair<Card*,Card*>, float> totals;
+  for (Node *n : nodes){
+    if(n->children.size()){
+      save_strat(n->children);
+    }
+    for (auto &i : n->strat_sum){
+      totals[i.first] += i.second;
+    }
+  }
+  for (Node *n :nodes){
+    for (auto &i : n->strat_sum){
+     n->final_strats[i.first].push_back(i.second/totals[i.first]); 
+    }
+  }
+}
 

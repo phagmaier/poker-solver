@@ -7,6 +7,8 @@
 #include "Deck.h"
 #include <utility>
 #include "helperfunctions.h"
+#define ITERATIONS 10000
+#define NUM_SAMPLES 1000
 
 using hand_pair = std::pair<std::pair<int, char>, std::pair<int, char>>;
 using card_pairs = std::pair<Card*, Card*>;
@@ -51,8 +53,10 @@ class Tree{
   void deal_community();
   void get_head_regrets();
   bool are_cards_unique(card_pairs const &one,card_pairs &two, std::vector<Card*>&comm);
+  void save_strat();
   //this function calls deal_community
   std::pair<matchups_dic,matchups_dic> get_monte_carlo(); //going to prune matchups 
+  void save_head_strat();
   void CFRM();
   
 
