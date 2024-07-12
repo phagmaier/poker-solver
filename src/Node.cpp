@@ -91,27 +91,31 @@ void Node::get_regret(std::vector<Node> &nodes){
   }
 }
 
-void Node::get_leaf_ev(std::vector<std::pair<Card*,Card*>> &range1,std::vector<std::pair<Card*,Card*>> &range2,
-                                          std::map<std::pair<Card*,Card*>, std::map<std::pair<Card*,Card*>,bool>> &p1_win,
-                                          std::map<std::pair<Card*,Card*>, std::map<std::pair<Card*,Card*>,bool>> &p2_win,
-                                          std::map<std::pair<Card*,Card*>,float> prct1, std::map<std::pair<Card*,Card*>,float> prct2){
+void Node::get_leaf_ev(matchDic &range1,
+                       matchDic &range2,
+                       std::map<std::pair<Card*,Card*>, std::map<std::pair<Card*,Card*>,bool>> &p1_win,
+                       std::map<std::pair<Card*,Card*>, std::map<std::pair<Card*,Card*>,bool>> &p2_win,
+                       std::map<std::pair<Card*,Card*>,float> prct1, 
+                       std::map<std::pair<Card*,Card*>,float> prct2){
   float winnings;
   if (action == FOLD){
     winnings = -(potsize-stack);
     if (p1){
-      for(std::pair<Card*,Card*> &i : range1){
-        for (std::pair<Card*,Card*> &x : range2){
-          ev[i][x] = winnings * prct1[i] * prct2[x];
-          actual[i][x] = winnings * prct2[x];
+      //for(std::pair<Card*,Card*> &i : range1){
+        //for (std::pair<Card*,Card*> &x : range2){
+        for (auto &i : range1){
+          for (std::pair<Card*,Card*> &x : i.second){
+          ev[i.first][x] = winnings * prct1[i.first] * prct2[x];
+          actual[i.first][x] = winnings * prct2[x];
 
         }
       }
     }
     else{
-      for(std::pair<Card*,Card*> &i : range2){
-        for (std::pair<Card*,Card*> &x : range1){
-          ev[i][x] = winnings * prct1[x] * prct2[i];
-          actual[i][x] = winnings * prct1[x];
+      for(auto &i : range2){
+        for (std::pair<Card*,Card*> &x : i.second){
+          ev[i.first][x] = winnings * prct1[x] * prct2[i.first];
+          actual[i.first][x] = winnings * prct1[x];
         }
       }
 
@@ -119,25 +123,31 @@ void Node::get_leaf_ev(std::vector<std::pair<Card*,Card*>> &range1,std::vector<s
     return;
     }
     if (p1){
-      for(std::pair<Card*,Card*> &i : range1){
-        for (std::pair<Card*,Card*> &x : range2){
-          if (p1_win[i][x]){
+      for(auto &i : range1){
+        for (std::pair<Card*,Card*> &x : i.second){
+          if (p1_win[i.first][x]){
             winnings = potsize - stack;
           }
           else{
             winnings = -(potsize - stack);
           }
-          ev[i][x] = winnings * prct1[i] * prct2[x];
-          actual[i][x] = winnings * prct2[x];
+          ev[i.first][x] = winnings * prct1[i.first] * prct2[x];
+          actual[i.first][x] = winnings * prct2[x];
 
         }
       }
     }
     else{
-      for(std::pair<Card*,Card*> &i : range2){
-        for (std::pair<Card*,Card*> &x : range1){
-          ev[i][x] = winnings * prct1[x] * prct2[i];
-          actual[i][x] = winnings * prct1[x];
+      for(auto &i : range2){
+        for (std::pair<Card*,Card*> &x : i.second){
+          if (p2_win[i.first][x]){
+            winnings = potsize-stack;
+          }
+          else{
+            winnings = -(potsize-stack);
+          }
+          ev[i.first][x] = winnings * prct1[x] * prct2[i.first];
+          actual[i.first][x] = winnings * prct1[x];
         }
       }
 
@@ -152,10 +162,11 @@ void Node::get_leaf_ev(std::vector<std::pair<Card*,Card*>> &range1,std::vector<s
 //To eliminate if statments it would be nice if 
 //instead of doing ranges 1 ranges 2 you just 
 //put myRange, oppRange and just passed the correct range accordingly 
-void Node::get_ev(std::vector<std::pair<Card*,Card*>> &range1,std::vector<std::pair<Card*,Card*>> &range2,
-                                          std::map<std::pair<Card*,Card*>, std::map<std::pair<Card*,Card*>,bool>> &p1_win,
-                                          std::map<std::pair<Card*,Card*>, std::map<std::pair<Card*,Card*>,bool>> &p2_win,
-                                          std::map<std::pair<Card*,Card*>,float> prct1, std::map<std::pair<Card*,Card*>,float> prct2){
+void Node::get_ev(matchDic &range1,
+                  matchDic  &range2,
+                  std::map<std::pair<Card*,Card*>, std::map<std::pair<Card*,Card*>,bool>> &p1_win,
+                  std::map<std::pair<Card*,Card*>, std::map<std::pair<Card*,Card*>,bool>> &p2_win,
+                  std::map<std::pair<Card*,Card*>,float> prct1, std::map<std::pair<Card*,Card*>,float> prct2){
   if (!children.size()){
     if (p1){
       for (auto &i : prct1){
@@ -171,13 +182,13 @@ void Node::get_ev(std::vector<std::pair<Card*,Card*>> &range1,std::vector<std::p
   }
   else{
     if (p1){
-      for (std::pair<Card*,Card*> &h : range1){
-       prct1[h] *=  strats[h]; 
+      for (auto &h : range1){
+       prct1[h.first] *=  strats[h.first]; 
       }
     }
     else{
-      for (std::pair<Card*,Card*> &h : range2){
-       prct2[h] *=  strats[h]; 
+      for (auto &h : range2){
+       prct2[h.first] *=  strats[h.first]; 
       }
     }
     ev.clear();
@@ -185,18 +196,18 @@ void Node::get_ev(std::vector<std::pair<Card*,Card*>> &range1,std::vector<std::p
     for (Node *n : children){
       n->get_ev(range1, range2,p1_win,p2_win,prct1,prct2);
       if (p1){
-        for (std::pair<Card*,Card*> &i : range1){
-          for (std::pair<Card*,Card*> &x : range2){
-            ev[i][x] -= (n->ev[x][i] * prct1[i] * prct2[x]);
-            actual[i][x] -=(n->actual[x][i] * prct2[x]);
+        for (auto &i : range1){
+          for (std::pair<Card*,Card*> &x : i.second){
+            ev[i.first][x] -= (n->ev[x][i.first] * prct1[i.first] * prct2[x]);
+            actual[i.first][x] -=(n->actual[x][i.first] * prct2[x]);
           }
         }
       }
       else{
-        for (std::pair<Card*,Card*> &i : range2){
-          for (std::pair<Card*,Card*> &x : range1){
-            ev[i][x] -= (n->ev[x][i] * prct2[i] * prct1[x]);
-            actual[i][x] -= (n->actual[x][i] * prct1[x]);
+        for (auto &i : range2){
+          for (std::pair<Card*,Card*> &x : i.second){
+            ev[i.first][x] -= (n->ev[x][i.first] * prct2[i.first] * prct1[x]);
+            actual[i.first][x] -= (n->actual[x][i.first] * prct1[x]);
           }
         }
       }

@@ -317,14 +317,42 @@ void Tree::get_head_regrets(){
   }
 }
 
+std::pair<boolDic,boolDic> Tree::get_winners(matchups_dic &one){
+  boolDic a;
+  boolDic b;
+  for (auto &i : one){
+    std::pair<Card*,Card*> temp = i.first;
+    for(std::pair<Card*,Card*> &x : i.second){
+      a[i.first][x] = did_p1_win(get_hand_strength(temp,community), get_hand_strength(x,community));
+      b[x][i.first] = ~a[i.first][x];
+    }
+  }
+  return {a,b};
+}
+
 //remeber that you have to prune ranges for 
 //the monte carlo runout so do that before calling this
 //
 void Tree::CFRM(){
   std::map<std::pair<Card*,Card*>,std::map<std::pair<Card*,Card*>,bool>> p1_win;
   std::map<std::pair<Card*,Card*>,std::map<std::pair<Card*,Card*>,bool>> p2_win;
+  std::pair<matchups_dic,matchups_dic>my_matchups= get_monte_carlo();
+
+  std::pair<boolDic,boolDic> winners = get_winners(my_matchups.first);
+  std::map<std::pair<Card*,Card*>,float> prct1;
+  std::map<std::pair<Card*,Card*>,float> prct2;
+  for (auto &i : my_matchups.first){
+    prct1[i.first] = 1;
+  }
+  for (auto &i : my_matchups.second){
+    prct2[i.first] = 1;
+  }
+
+  //once you get the matchups you'll need to also call
+  //a function to create a double dic of bools that says who won the hand
   for (Node &n : heads){
-    n.get_ev(p1_range, p2_range,p1_win,p2_win,{},{});
+    //need to pass my_matchups first and my_matchups.second insted of p1_range_p2_range
+    n.get_ev(my_matchups.first, my_matchups.second,winners.first,winners.second,prct1,prct2);
   }
   get_head_regrets();
 

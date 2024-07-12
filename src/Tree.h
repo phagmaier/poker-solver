@@ -6,10 +6,12 @@
 #include "Card.h"
 #include "Deck.h"
 #include <utility>
+#include "helperfunctions.h"
 
 using hand_pair = std::pair<std::pair<int, char>, std::pair<int, char>>;
 using card_pairs = std::pair<Card*, Card*>;
 using matchups_dic = std::map<card_pairs, std::vector<card_pairs>>;
+using boolDic = std::map<std::pair<Card*,Card*>, std::map<std::pair<Card*,Card*>,bool>>;
 class Tree{
   public:
     Tree(hand_pair hand,float bb,float pot,std::vector<std::pair<int,char>> dealt_cards,std::vector<hand_pair> range1, 
@@ -44,7 +46,8 @@ class Tree{
                                    Action prev_action,float potsize,
                                     float prev_bet,std::pair<float,float>prev_stack, int num_bets);
   Street get_next_street(Action act, Action prev_act, Street street);
-
+  
+  std::pair<boolDic,boolDic> get_winners(matchups_dic &one);
   void deal_community();
   void get_head_regrets();
   bool are_cards_unique(card_pairs const &one,card_pairs &two, std::vector<Card*>&comm);
