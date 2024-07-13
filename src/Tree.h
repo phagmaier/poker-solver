@@ -58,7 +58,5 @@ class Tree{
   std::pair<matchups_dic,matchups_dic> get_monte_carlo(); //going to prune matchups 
   void save_head_strat();
   void CFRM();
-  
-
 };
 #endif

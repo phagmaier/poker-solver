@@ -351,7 +351,7 @@ void Tree::save_head_strat(){
 
 //remeber that you have to prune ranges for 
 //the monte carlo runout so do that before calling this
-//
+//so this will be a our main loop gonna have to loop through this
 void Tree::CFRM(){
   std::pair<matchups_dic,matchups_dic>my_matchups= get_monte_carlo();
   std::pair<boolDic,boolDic> winners = get_winners(my_matchups.first);

@@ -97,6 +97,8 @@ void Node::get_leaf_ev(matchDic &range1,
                        std::map<std::pair<Card*,Card*>, std::map<std::pair<Card*,Card*>,bool>> &p2_win,
                        std::map<std::pair<Card*,Card*>,float> prct1, 
                        std::map<std::pair<Card*,Card*>,float> prct2){
+  ev.clear();
+  actual.clear();
   float winnings;
   if (action == FOLD){
     winnings = -(potsize-stack);
@@ -180,7 +182,9 @@ void Node::get_ev(matchDic &range1,
     }
     get_leaf_ev(range1,range2,p1_win,p2_win,prct1,prct2);
   }
+  
   else{
+    /*
     if (p1){
       for (auto &h : range1){
        prct1[h.first] *=  strats[h.first]; 
@@ -191,6 +195,7 @@ void Node::get_ev(matchDic &range1,
        prct2[h.first] *=  strats[h.first]; 
       }
     }
+      */
     ev.clear();
     actual.clear();
     for (Node *n : children){
@@ -198,23 +203,25 @@ void Node::get_ev(matchDic &range1,
       if (p1){
         for (auto &i : range1){
           for (std::pair<Card*,Card*> &x : i.second){
-            ev[i.first][x] -= (n->ev[x][i.first] * prct1[i.first] * prct2[x]);
-            actual[i.first][x] -=(n->actual[x][i.first] * prct2[x]);
+            ev[i.first][x] -= (n->ev[x][i.first]);
+            actual[i.first][x] -=(n->actual[x][i.first]);
           }
         }
       }
       else{
         for (auto &i : range2){
           for (std::pair<Card*,Card*> &x : i.second){
-            ev[i.first][x] -= (n->ev[x][i.first] * prct2[i.first] * prct1[x]);
-            actual[i.first][x] -= (n->actual[x][i.first] * prct1[x]);
+            ev[i.first][x] -= (n->ev[x][i.first]);
+            actual[i.first][x] -= (n->actual[x][i.first]);
           }
         }
       }
     }
-        
+
     get_regret(children); 
+        
   }
+
 }
 
 void Node::save_strat(std::vector<Node> nodes){
