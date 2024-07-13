@@ -184,7 +184,7 @@ void Node::get_ev(matchDic &range1,
   }
   
   else{
-    /*
+    
     if (p1){
       for (auto &h : range1){
        prct1[h.first] *=  strats[h.first]; 
@@ -195,7 +195,7 @@ void Node::get_ev(matchDic &range1,
        prct2[h.first] *=  strats[h.first]; 
       }
     }
-      */
+      
     ev.clear();
     actual.clear();
     for (Node *n : children){
