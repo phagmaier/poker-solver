@@ -1,0 +1,12 @@
+1. Label above each side 
+  HERO & VILLAIN
+
+Need a way to select what position each player is in so have
+a label above each player where you can select 
+    
+    UTG (under the gun)
+    HJ  (Hijack) 
+    CO (CUTOFF)
+    BTN (Button)
+    SB (Small Blind)
+    BB (Big blind)
