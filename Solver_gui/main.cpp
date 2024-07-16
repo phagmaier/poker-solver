@@ -19,12 +19,13 @@
 //AND THEN FIND THE BIGGEST FONT YOU CAN
 
 #include "raylib.h"
-//#include <vector>
+#include <vector>
 #include <map>
 #include <string>
 #include <iostream>
 #include <utility>
 #include <fstream>
+
 
 #define CARDFONTSIZE 16
 #define BUTTONFONTSIZE 20 
@@ -41,6 +42,80 @@ enum BoxType{
 };
 
 
+using hand_pair = std::vector<std::pair<std::pair<int,char>, std::pair<int,char>>>;
+
+
+void get_suited(char val1, char val2, hand_pair &vec){
+  char suits[4] = {'h','s','d', 'c'};
+  
+  std::map<char,int> charDic = {
+    {'A',14}, {'K',13},{'Q',12},
+    {'J',10}, {'T',10},{'9',9},{'8',8},{'7',7},{'6',6},
+    {'5',5},{'4',4},{'3',3},{'2',2}
+  };
+  int real_v1 = charDic[val1];
+  int real_v2 = charDic[val2];
+
+  for (int i=0; i< 4; ++i){
+    vec.push_back({{real_v1,suits[i]},{real_v2,suits[i]}});    
+  }
+}
+
+void get_off_suite(char val1, char val2, hand_pair &vec){
+  char suits[4] = {'h','s','d', 'c'};
+  
+  std::map<char,int> charDic = {
+    {'A',14}, {'K',13},{'Q',12},
+    {'J',10}, {'T',10},{'9',9},{'8',8},{'7',7},{'6',6},
+    {'5',5},{'4',4},{'3',3},{'2',2}
+  };
+  int real_v1 = charDic[val1];
+  int real_v2 = charDic[val2];
+
+  for (int i=0; i< 4; ++i){
+    for (int x =0; x<4; ++x){
+      if (i!=x){
+        vec.push_back({{real_v1,suits[i]},{real_v2,suits[x]}});    
+      }
+    }
+  }
+}
+
+std::pair<hand_pair,hand_pair> init_ranges(std::vector<std::string> &ranges1,std::vector<std::string> &ranges2){
+  hand_pair one;
+  hand_pair two;
+
+  for (std::string &i : ranges1){
+    if (i[5] == 'S' && i[0] != i[2]){
+      get_suited(i[0], i[2], one);
+    }
+    else{
+      get_off_suite(i[0],i[2],one);
+    }
+  }
+  for (std::string &i : ranges2){
+    if (i[5] == 'S' && i[0] != i[2]){
+      get_suited(i[0], i[2], two);
+    }
+    else{
+      get_off_suite(i[0],i[2],two);
+    }
+  }
+
+  return {one,two}; 
+}
+
+void arr_to_vec(bool clicked[13][13], std::string cards[13][13], std::vector<std::string> &vec){
+  for (int i=0;i<13;++i){
+    for (int x=0; x<13; ++x){
+      if (clicked[i][x]){
+        vec.push_back(cards[i][x]);
+      }
+    }
+  }
+}
+
+/*
 void write_ranges(bool clicked[13][13], std::string cards[13][13],
                   std::map<int,std::string> *dic){
 
@@ -56,6 +131,9 @@ void write_ranges(bool clicked[13][13], std::string cards[13][13],
   }
   outFile.close();
 }
+*/
+
+
 
 void reset(bool boxes1[13][13], bool boxes2[13][13], bool *pos1, bool *pos2){
   for (int i=0; i<13; ++i){
@@ -96,7 +174,8 @@ std::pair<BoxType,std::pair<int, int>> on_box(Rectangle boxes[13][13],Rectangle 
   }
       if (CheckCollisionPointRec(pos, *done)){
         //just keeping this for now I won't need in the future
-        write_ranges(clicked, cards, dic);
+        //write_ranges(clicked, cards, dic);
+        return {Done, {-1,-1}};
       }
       
       else if (CheckCollisionPointRec(pos, *clear)){
@@ -108,6 +187,9 @@ std::pair<BoxType,std::pair<int, int>> on_box(Rectangle boxes[13][13],Rectangle 
 
 
 int main(){
+  std::vector<std::string> r1;
+  std::vector<std::string> r2;
+
   std::map<int,std::string> dic = {{12,"2"}, {11,"3"},{10,"4"},{9,"5"},
     {8,"6"},{7,"7"},{6,"8"}, {5,"9"}, {4,"T"}, {3,"J"}, {2,"Q"},
     {1,"K"}, {0,"A"}};
@@ -146,7 +228,7 @@ int main(){
 
   //InitWindow(0,0,"RANGES"); 
   //InitWindow(screenW,screenH,"RANGES"); 
-  InitWindow(0,0,"RANGES"); 
+  InitWindow(0,0,"SOLVER"); 
   screenW = GetScreenWidth() * .75;
   screenH = GetScreenHeight() * .75;
 
@@ -237,7 +319,18 @@ int main(){
       std::pair<BoxType,std::pair<int,int>> box = on_box(textBoxes1, textBoxes2, &done_box, clicked,
                                                          clicked2, pos1, pos2, pos_clicked1, 
                                                          pos_clicked2, &reset_box,cards,&dic);
-      if (box.first != None){
+      if (box.first == Done){
+        arr_to_vec(clicked,cards,r1);
+        arr_to_vec(clicked2,cards,r2);
+        //NEED TO MAKE SURE ALL FIELDS ARE INITIALIZED
+        //cause after these gonna render it statically so gotta make sure this is fine to do
+        //before sending off to the solver
+        //if (r1.size() && r2.size() && ...)
+        std::pair<hand_pair,hand_pair> final_ranges= init_ranges(r1,r2);
+        //call some func to render statically until the solver solves
+      }
+
+      else if (box.first != None){
         if (box.first == Text1){
         if (clicked[box.second.first][box.second.second]){
           clicked[box.second.first][box.second.second] = false;

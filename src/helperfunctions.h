@@ -12,6 +12,8 @@
 #include <fstream>
 #include <string>
 
+//using hand_pair = std::vector<std::pair<std::pair<int,char>, std::pair<int,char>>>;
+
 
 enum handStrength{
   High=0,
@@ -106,5 +108,11 @@ std::map<std::string, int> gen_dic();
 
 std::map<std::string, int> *gen_dic_ptr();
 
+/*
+void get_suited(char val1, char val2, hand_pair &vec);
 
+void get_off_suite(char val1, char val2, hand_pair &vec);
+
+std::pair<hand_pair,hand_pair> init_ranges(std::vector<std::string> ranges1,std::vector<std::string> ranges2);
+*/
 #endif 

@@ -492,5 +492,66 @@ std::map<std::string, int> *gen_dic_ptr(){
     }
   return dic;
 }
+/*
+void get_suited(char val1, char val2, hand_pair &vec){
+  char suits[4] = {'h','s','d', 'c'};
+  
+  std::map<char,int> charDic = {
+    {'A',14}, {'K',13},{'Q',12},
+    {'J',10}, {'T',10},{'9',9},{'8',8},{'7',7},{'6',6},
+    {'5',5},{'4',4},{'3',3},{'2',2}
+  };
+  int real_v1 = charDic[val1];
+  int real_v2 = charDic[val2];
 
+  for (int i=0; i< 4; ++i){
+    vec.push_back({{real_v1,suits[i]},{real_v2,suits[i]}});    
+  }
 
+}
+
+void get_off_suite(char val1, char val2, hand_pair &vec){
+  char suits[4] = {'h','s','d', 'c'};
+  
+  std::map<char,int> charDic = {
+    {'A',14}, {'K',13},{'Q',12},
+    {'J',10}, {'T',10},{'9',9},{'8',8},{'7',7},{'6',6},
+    {'5',5},{'4',4},{'3',3},{'2',2}
+  };
+  int real_v1 = charDic[val1];
+  int real_v2 = charDic[val2];
+
+  for (int i=0; i< 4; ++i){
+    for (int x =0; x<4; ++x){
+      if (i!=x){
+        vec.push_back({{real_v1,suits[i]},{real_v2,suits[x]}});    
+      }
+    }
+  }
+
+}
+
+std::pair<hand_pair,hand_pair> init_ranges(std::vector<std::string> ranges1,std::vector<std::string> ranges2){
+  hand_pair one;
+  hand_pair two;
+
+  for (std::string &i : ranges1){
+    if (i[5] == 'S' && i[0] != i[2]){
+      get_suited(i[0], i[2], one);
+    }
+    else{
+      get_off_suite(i[0],i[2],one);
+    }
+  }
+  for (std::string &i : ranges2){
+    if (i[5] == 'S' && i[0] != i[2]){
+      get_suited(i[0], i[2], two);
+    }
+    else{
+      get_off_suite(i[0],i[2],two);
+    }
+  }
+
+  return {one,two}; 
+}
+*/
