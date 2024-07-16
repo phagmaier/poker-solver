@@ -1,4 +1,0 @@
-will have a static variable with a a vector of 
-vector that shows all the hand combos 
-will actually be a dic of vectors to see what
-card goes against what thing

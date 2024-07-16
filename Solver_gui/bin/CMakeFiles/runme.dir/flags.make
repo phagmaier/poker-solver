@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/phagmaier/Desktop/Code/Ranges/include
+CXX_INCLUDES = -I/home/phagmaier/Desktop/Code/temp_gui/include
 
 CXX_FLAGS = -std=gnu++20
 

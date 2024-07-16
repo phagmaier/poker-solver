@@ -1,3 +1,0 @@
-/home/phagmaier/Desktop/Code/Ranges/bin/CMakeFiles/runme.dir
-/home/phagmaier/Desktop/Code/Ranges/bin/CMakeFiles/edit_cache.dir
-/home/phagmaier/Desktop/Code/Ranges/bin/CMakeFiles/rebuild_cache.dir
