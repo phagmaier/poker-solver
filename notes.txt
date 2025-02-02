@@ -1,0 +1,9 @@
+
+AV(Actual value):
+
+CFRM:
+What happens if you only take action A
+(given the percentage of reaching that part of the game
+tree only factoring in your opponents choices but if 
+all decisions made after that if not a terminal node are played 
+with the same strategy)
