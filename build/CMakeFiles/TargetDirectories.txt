@@ -1,0 +1,3 @@
+/home/phagmaier/Desktop/Code/Poker/build/CMakeFiles/runme.dir
+/home/phagmaier/Desktop/Code/Poker/build/CMakeFiles/edit_cache.dir
+/home/phagmaier/Desktop/Code/Poker/build/CMakeFiles/rebuild_cache.dir
