@@ -16,58 +16,42 @@ min_stack(min_stack), potsize(potsize), cur_bet(cur_bet), num_bets(num_bets)
   }
 }
 
+//ONLY ADJUST THE MIN STACK AND POT ON CALLS
 void Node::make_children(){
-  //Node *next_parent = this;
-  bool next_player = get_next_player();
-  Node *child_node = nullptr;
-
-  //probably won't need this will handle
-  //in the get valid bet sizes
-  if (action==ALLIN){
-    //this is wrong need to do all in update
-    child_node = new Node(this, FOLD, next_player,street,
-                          min_stack,potsize,0,0);
-    children.push_back(child_node);
-    child_node = new Node(this,CALLALLIN,next_player,street,
-                          0,potsize+min_stack,min_stack,0);
-    return;
-  }
   std::vector<float> sizes = get_valid_bet_sizes();
-  Action next_act = BET;
-  if (action == BET || action == RAISE){
-    next_act = RAISE;
+  //are you raising or are you calling
+  Action act = RAISE;
+  if (action == CHECK || CALL || CHECKBACK){
+    act = BET;
   }
-  for (float &i :sizes){
-
-    //std::tie(next_act,next_bet) = i;
-    Street next_street = get_next_street();
-    float new_short = short_stack == next_player ? min_stack-i: min_stack;
-    child_node = new Node(this, next_act, next_player,next_street,
-                          new_short, potsize+i, i, num_bets+1);
-    children.push_back(child_node);
+  //setting all bets
+  for(float bet : sizes){
+    children.emplace_back(new Node(this,act,!player,street,min_stack,
+                                potsize,bet,num_bets+1));
   }
-
-  //can always fold,check, or checkback
-  //can also always go all in 
-  if (action == BET || action == RAISE){
-    //if the new player is the same as the min stack then decrease min stack
-    int new_min_stack = (!player) == Node::min_stack ? min_stack - cur_bet : min_stack;
-    child_node = new Node(this, CALL, !player,street,new_min_stack,potsize+cur_bet,0,0);
-
-    children.push_back(child_node);
-    child_node = new Node(this, FOLD, !player,street,
-                          min_stack,potsize,0,0);
+  //NOW I NEED TO MAKE ALL THE NON BETS
+  //1. CALL
+  //2. CHECK
+  //3. CHECKBACK
+  //4. CALLALLIN
+  //5. ALLIN
+  //6. FOLD
+  
+  //CALL
+  if(action == BET){
+    //if you call as first to act player you go again next street
+    bool new_player = !player ? player : !player;
+    children.emplace_back(new Node(this,act,new_player,
+                          street,min_stack-cur_bet,
+                          potsize+(cur_bet *2),0,0));
+    children.emplace_back(new Node(this,FOLD,!player,
+                          street,min_stack,
+                          potsize,0,0));
+    children.emplace_back(new Node(this,ALLIN,!player,
+                          street,min_stack,
+                          potsize,min_stack,0));
   }
-  else{
-    Action tmp = action == CHECK ? CHECKBACK : CHECK;
-    child_node = new Node(this, tmp , !player,street,
-                          min_stack,potsize,0,0);
-  }
-  children.push_back(child_node);
-  child_node = new Node(this,ALLIN,!player,street,
-                          min_stack,potsize+min_stack,min_stack,0);
-  children.push_back(child_node);
-
+  else if()
 }
 
 Street Node::get_next_street(){
@@ -102,26 +86,32 @@ bool Node::is_terminal_node(){
   return false;
 }
 
+/*
 bool Node::get_next_player(){
   if (action == CALL && player == false){
     return player;
   }
   return (!player);
 }
+*/
 
 
-
+//Need to fix this if potsize is 0 need the potsize to be the Node::bb
 std::vector<float> Node::get_valid_bet_sizes(){
   if (num_bets >= 3){
     return {};
   }
   std::vector<float> vec;
   float min_bet = num_bets ? (cur_bet *2) : Node::bb;
+  float pot = potsize ? potsize : Node::bb;
   float limit = min_stack *.85; //if 85% of stack just go all in so not valdid
   for (float i : Node::bet_sizes){
     float size = i * potsize; 
 
-    if (size >= min_bet && size <limit){
+    if (size >= min_bet){
+      if (size >= limit){
+        return vec;
+      }
       vec.push_back(size);
     }
   }
@@ -129,6 +119,7 @@ std::vector<float> Node::get_valid_bet_sizes(){
 }
 
 Node::~Node(){
+  std::cout << "CALLING DESTRUCTOR\n";
   for (Node *node: children){
     if (node){
       delete node;

@@ -54,7 +54,7 @@ private:
   void make_children();
   Street get_next_street();
   bool is_terminal_node();
-  bool get_next_player();
+  //bool get_next_player();
   std::vector<float> get_valid_bet_sizes();
 };
 

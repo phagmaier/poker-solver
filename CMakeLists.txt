@@ -21,6 +21,7 @@ set(SOURCES
     src/make_dics.cpp
     src/Deck.cpp
     src/hand_evaluator.cpp
+    src/Node.cpp
 )
 
 # Create the executable
