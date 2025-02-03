@@ -3,24 +3,12 @@
 #include "Card.h"
 #include <utility>
 
-/*
- * So my thought is you don't need to store things like
- * each cards ev for each decision because you'll be calulating
- * that at the same time like I don't need to store
- * the temporary regrets I'll just do that as I go right?
- * and once I calculate it for one I update it and i'm done
- * cause you do it 
-*/
-
-enum Player{
-  FTA, //First to act
-  STA //Second to act
-};
-
 enum Action{
   FOLD,
   CHECK,
+  CHECKBACK,
   CALL,
+  CALLALLIN,
   BET,
   RAISE,
   ALLIN
@@ -35,25 +23,26 @@ enum Street{
 
 class Node{
 public:
-  //manually put in all in and zero
-  //zero will be a check or a fold
   const static std::vector<float> bet_sizes;
   static float bb;
   static std::vector<std::pair<Card,Card>> range1;
   static std::vector<std::pair<Card,Card>> range2;
-  static Player short_stack;
+  static float starting_stack1;
+  static float starting_stack2;
+  static bool short_stack;
 
-
-  Node(Node *prnt, Action act, Player p,
-           Street s, float stk, float pot, 
-       float cur_bet, int num_bets);
+  //also need to pass in the number of bets
+  Node(Node *parent, Action action, bool player, Street street,
+           float min_stack, float potsize, float cur_bet, int num_bets);
+  ~Node();
   Node *parent;
   Action action;
-  Player player;
+  bool player; //first to act is false sta is true
   Street street;
   float min_stack;
   float potsize;
   float cur_bet;
+  int num_bets;
   std::vector<std::vector<float>> action_prcts;
 
   std::vector<float> total_ev; 
@@ -62,10 +51,11 @@ public:
 
   std::vector<Node*> children;
 private:
-  std::vector<float> get_all_bets();
-  void make_terminal_nodes(Action a, 
-                           Player plyr, Street str, float min,
-                           float money, float last_best);
+  void make_children();
+  Street get_next_street();
+  bool is_terminal_node();
+  bool get_next_player();
+  std::vector<float> get_valid_bet_sizes();
 };
 
 
