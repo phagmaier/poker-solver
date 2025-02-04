@@ -9,7 +9,15 @@ const float Node::starting_stack2 = 100;
 const bool Node::short_stack = Node::starting_stack1 > Node::starting_stack2 ? false : true; 
 unsigned int Node::a = 1;
 
+//SETTING THE RANGES JUST FOR THIS EXAMPLE WE 
+//WILL ONLY BE PLAYING ACES AND KINGS
+const std::vector<std::pair<Card,Card>> Node::range1 = {
+  {Card(12,0),Card(12,1)},{Card(11,0), Card(11,1)}
+};
 
+const std::vector<std::pair<Card,Card>> Node::range2 = {
+  {Card(12,0),Card(12,1)},{Card(11,0), Card(11,1)}
+};
 std::unordered_map<Action, std::string> Node::action_dic{
   {FOLD,"FOLD"},
   {CHECK,"CHECK"},
@@ -37,9 +45,20 @@ min_stack(min_stack), potsize(potsize), cur_bet(cur_bet), num_bets(num_bets)
   if (!is_terminal_node()){
     make_children();
   }
+  float uniform = 1.0f/(float)children.size();
+  int num_cards = player ? Node::range1.size() : Node::range2.size();
+  for (int i=0;i<num_cards;++i){
+    total_ev.push_back(0.0f);
+    total_av.push_back(0.0f);
+    total_regrets.push_back(0.0f);
+    for (int x=0;x<children.size();++x){
+      children[x]->action_prcts.push_back(uniform);
+    }
+  }
 }
 
-//ONLY ADJUST THE MIN STACK AND POT ON CALLS
+//In the future please chnage this so it's not just a bunch of if statments it's 
+//really shitty code 
 void Node::make_children(){
   std::vector<float> sizes = get_valid_bet_sizes();
   

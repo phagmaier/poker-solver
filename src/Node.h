@@ -48,18 +48,23 @@ public:
   float potsize;
   float cur_bet;
   int num_bets;
-  std::vector<std::vector<float>> action_prcts;
+
+  //ALL THIS NEEDS TO BE SET BY THE PARENTS ONLY THE HEAD
+  //NODES NEED TO BE SET MANUALLY
+  //Head nodes the prct will be calculated the same way
+  //only you take the number of head in the head vector
+  std::vector<float> action_prcts; //prct of taking the action for each card
 
   std::vector<float> total_ev; 
   std::vector<float> total_av; 
-  std::vector<std::vector<float>>total_regrets;
+  std::vector<float>total_regrets;
   std::vector<Node*> children;
+  //END OF WHERE THESE NEED TO BE SET BY PARENTS
   void print_node();
 private:
   void make_children();
   Street get_next_street();
   bool is_terminal_node();
-  //bool get_next_player();
   std::vector<float> get_valid_bet_sizes();
 };
 
