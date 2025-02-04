@@ -17,8 +17,8 @@ void print_nodes(Node &node){
 
 
 int main(){
-  Node root = Node(nullptr, CHECK, true, FLOP, 
-                  100, Node::bb * 1.5, 0, 0);
+  Node root = Node(CHECK, true, FLOP, 
+                  100, Node::bb * 1.5, 0, 0,.3);
   //print_nodes(root);
   std::cout << Node::a << "\n";
   return 0;

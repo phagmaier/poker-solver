@@ -1,7 +1,6 @@
 #include "Node.h"
 
 const std::vector<float> Node::bet_sizes = {.25,.5,.75,1,1.25,2};
-//should probably have reraise sizes
 const std::vector<float> Node::reRaiseSizes = {2,3,4,5};
 const float Node::bb = 1;
 const float Node::starting_stack1 = 100;
@@ -50,7 +49,48 @@ min_stack(min_stack), potsize(potsize), cur_bet(cur_bet), num_bets(num_bets)
     total_av.push_back(0.0f);
     total_regrets.push_back(0.0f);
   }
+  set_actions();
    
+}
+
+//SAY YOU START ON THE FLOP NO PREV ACTION TAKEN
+//THEN YOU HAVE MULTIPLE HEAD NODES AND NEED TO SET ALL POSSIBLE ACTIONS
+Node::Node(Action action, bool player, Street street,
+           float min_stack, float potsize, float cur_bet, int num_bets, float uniform) :
+parent(nullptr), action(action), player(player), street(street),
+min_stack(min_stack), potsize(potsize), cur_bet(cur_bet), num_bets(num_bets)
+{
+  Node::a++;
+  
+  if (!player){
+    for (int i=0;i<Node::range1.size();++i){
+      action_prcts1.push_back(uniform);    
+    }
+    for (int i=0;i<Node::range2.size();++i){
+      action_prcts2.push_back(1);    
+    }
+
+  }
+  else{
+    for (int i=0;i<Node::range2.size();++i){
+      action_prcts2.push_back(uniform);    
+    }
+    for (int i=0;i<Node::range1.size();++i){
+      action_prcts1.push_back(1);    
+    }
+  }
+
+  if (!is_terminal_node()){
+    make_children();
+  }
+  int num_cards = !player ? Node::range1.size() : Node::range2.size();
+  for (int i=0;i<num_cards;++i){
+    total_ev.push_back(0.0f);
+    total_av.push_back(0.0f);
+    total_regrets.push_back(0.0f);
+  }
+
+
 }
 
 //In the future please chnage this so it's not just a bunch of if statments it's 
@@ -212,8 +252,18 @@ Node::~Node(){
   }
 }
 
-void Node::set_actions(float uniform, int num, std::vector<float>&vec){
-  for (int i=0;i<num;++i){
-    vec.push_back(uniform);
+void Node::set_actions(){
+  float uniform = 1.0f/(float)parent->children.size();
+  if (!player){
+    for (float i : parent->action_prcts1){
+      action_prcts1.push_back(uniform * i);
+    }
+    action_prcts2 = parent->action_prcts2;
+  }
+  else{
+    for (float i : parent->action_prcts2){
+      action_prcts2.push_back(uniform * i);
+    }
+    action_prcts1 = parent->action_prcts1;
   }
 }

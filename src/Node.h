@@ -40,6 +40,10 @@ public:
   //As you traverse down tree you must update these
   Node(Node *parent, Action action, bool player, Street street,
            float min_stack, float potsize, float cur_bet, int num_bets);
+
+  Node(Action action, bool player, Street street,
+           float min_stack, float potsize, float cur_bet, int num_bets,float uniform);
+
   ~Node();
   Node *parent;
   Action action;
@@ -70,8 +74,7 @@ private:
   Street get_next_street();
   bool is_terminal_node();
   std::vector<float> get_valid_bet_sizes();
-  void set_actions(float uniform, int num, std::vector<float>&vec);
+  void set_actions();
 };
-
 
 

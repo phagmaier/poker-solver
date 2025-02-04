@@ -1,9 +1,54 @@
+**************************************************                  
+                POKER SOLVER NOTES 
+**************************************************                  
 
-AV(Actual value):
+--------------------------------------------------
+                      SETUP 
+              --------------------
+--------------------------------------------------
+1. FOR HEAD NODES YOU DON'T PASS PARENT
+  (THEY DON'T HAVE ONE) AND YOU PASS HOW 
+  MANY HEAD NODES THERE ARE SO THAT YOU CAN SET
+  THE UNIFORM STARTING DECISIONS I.E. 
+  EACH DECISION AT THE START IS EQUALLY LIKLEY
+  BECAUSE WE DON'T KNOW THE CURRENT EV OF EACH DECISION
+
+2. When you make a node (except for head node)
+  You look at the parent see how many nodes they spit out
+  which are the number of other actions that could have been 
+  taken and use that to self the uniform default strat 
+
+3. But each node stores the cum prob of taking each action 
+  meaning we store p1's cum strats and p2 but we also need
+  them seperatley because we need to know the payout of if we 
+  did nothing but try to get to this node i.e. our action prct
+  is 1 and we only take into account our opponent prcnts
+
+4. Because of that we don't update the players cum prob
+  When we are the other player cause their prcentage didn't change
+
+5. When we are dealing with the ev meaning our ev for actually 
+  taking this action given our current strat we will combine both
+  percentages by multiplying them and then also multiply that by 
+  result (the result will be the average expected result we can expect to
+  recieve given the runnout)
+  So if we expect on average given the runnout AAKQ is 100 BBs
+  out ev = 100BB * total_percentage_of_getting_to_this_node
+  out actual ev (av)[meaning the ev of only taking this action
+  calling it actual cause it's the actual payout we can expect from this
+  node] would be: 
+  100BB * chance_of_getting_to_this_node_only_taking_into_account_the_other_player
+---------------------------------------------------------------
+
+**************************************************                  
+                  ALGO
+**************************************************                  
 
 CFRM:
+---------------------------------------------------------------
 What happens if you only take action A
 (given the percentage of reaching that part of the game
 tree only factoring in your opponents choices but if 
 all decisions made after that if not a terminal node are played 
 with the same strategy)
+---------------------------------------------------------------
