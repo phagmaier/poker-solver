@@ -36,7 +36,8 @@ public:
   static std::unordered_map<Street, std::string> street_dic;
   static unsigned int a;
 
-  //also need to pass in the number of bets
+  //We are setting the cum prob as a default of 1
+  //As you traverse down tree you must update these
   Node(Node *parent, Action action, bool player, Street street,
            float min_stack, float potsize, float cur_bet, int num_bets);
   ~Node();
@@ -53,19 +54,23 @@ public:
   //NODES NEED TO BE SET MANUALLY
   //Head nodes the prct will be calculated the same way
   //only you take the number of head in the head vector
-  std::vector<float> action_prcts; //prct of taking the action for each card
-
-  std::vector<float> total_ev; 
-  std::vector<float> total_av; 
+  std::vector<float> action_prcts1; //prct of taking the action for each card
+  std::vector<float> action_prcts2; 
+  std::vector<float> total_ev; //combine both cum1 and cum2
+  std::vector<float> total_av; //combine only either cum1 or cum2
   std::vector<float>total_regrets;
   std::vector<Node*> children;
   //END OF WHERE THESE NEED TO BE SET BY PARENTS
   void print_node();
+  void set_values();
+  void set_head_actions(float uniofrm);
+
 private:
   void make_children();
   Street get_next_street();
   bool is_terminal_node();
   std::vector<float> get_valid_bet_sizes();
+  void set_actions(float uniform, int num, std::vector<float>&vec);
 };
 
 

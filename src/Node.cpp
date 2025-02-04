@@ -40,21 +40,17 @@ Node::Node(Node *parent, Action action, bool player, Street street,
 parent(parent), action(action), player(player), street(street),
 min_stack(min_stack), potsize(potsize), cur_bet(cur_bet), num_bets(num_bets)
 {
-  //std::cout << Node::a << "\n";
   Node::a++;
   if (!is_terminal_node()){
     make_children();
   }
-  float uniform = 1.0f/(float)children.size();
-  int num_cards = player ? Node::range1.size() : Node::range2.size();
+  int num_cards = !player ? Node::range1.size() : Node::range2.size();
   for (int i=0;i<num_cards;++i){
     total_ev.push_back(0.0f);
     total_av.push_back(0.0f);
     total_regrets.push_back(0.0f);
-    for (int x=0;x<children.size();++x){
-      children[x]->action_prcts.push_back(uniform);
-    }
   }
+   
 }
 
 //In the future please chnage this so it's not just a bunch of if statments it's 
@@ -209,7 +205,6 @@ void Node::print_node(){
 }
 
 Node::~Node(){
-  //std::cout << "CALLING DESTRUCTOR\n";
   for (Node *node: children){
     if (node){
       delete node;
@@ -217,4 +212,8 @@ Node::~Node(){
   }
 }
 
-
+void Node::set_actions(float uniform, int num, std::vector<float>&vec){
+  for (int i=0;i<num;++i){
+    vec.push_back(uniform);
+  }
+}
