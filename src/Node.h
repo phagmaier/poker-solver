@@ -22,6 +22,9 @@ enum Street{
   RIVER
 };
 
+//might actually need to track both players
+//ev and av but i'm not 100% sure
+//or just use the greater size for both idk
 class Node{
 public:
   const static std::vector<float> bet_sizes;
@@ -29,6 +32,8 @@ public:
   const static float bb;
   const static std::vector<std::pair<Card,Card>> range1;
   const static std::vector<std::pair<Card,Card>> range2;
+  const static unsigned int range1_size;
+  const static unsigned int range2_size;
   const static float starting_stack1;
   const static float starting_stack2;
   const static bool short_stack;
@@ -36,8 +41,6 @@ public:
   static std::unordered_map<Street, std::string> street_dic;
   static unsigned int a;
 
-  //We are setting the cum prob as a default of 1
-  //As you traverse down tree you must update these
   Node(Node *parent, Action action, bool player, Street street,
            float min_stack, float potsize, float cur_bet, int num_bets);
 
@@ -75,6 +78,10 @@ private:
   bool is_terminal_node();
   std::vector<float> get_valid_bet_sizes();
   void set_actions();
+  //can make parallel by either passing 
+  //an index and having a thread update each card
+  //or just giving each thread a node idk
+  void update_actions();
 };
 
 

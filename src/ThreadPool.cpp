@@ -1,21 +1,3 @@
-/*
-class ThreadPool{
-private:
-  std::atomic<unsigned int> counter;
-  unsigned int num_nodes;
-  std::queue<std::function<void()>> tasks;
-  std::vector<std::thread> threads;
-  std::mutex mtx;
-  std::condition_variable cv;
-  bool stop;
-
-public:
-  explicit ThreadPool(unsigned int num_nodes);
-  //will eventually need a reset function
-  void reset();
-  inline void set_num_nodes(unsigned int num){num_nodes = num;}
-};
-*/
 #include "ThreadPool.h"
 
 ThreadPool::ThreadPool(){
@@ -73,6 +55,7 @@ void ThreadPool::enqueue_children(Node *node){
     enqueue_children(child);
   }
 }
+
 
 void ThreadPool::enqueue_all(std::vector<Node>&heads){
   for (Node &head : heads){
